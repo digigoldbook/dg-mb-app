@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'auth/sign_in/bloc/sign_in_bloc.dart';
 import 'components/config/app_routes.dart';
 import 'main_screen/cubit/bottom_nav_cubit.dart';
+import 'services/estimation/cubit/estimation_step_cubit.dart';
 import 'services/pages/percentage_conversion/cubit/percentage_conversion_cubit.dart';
 import 'shop_screen/domain/fetch_bloc/shop_bloc.dart';
 import 'splash/cubit/splash_cubit.dart';
@@ -31,6 +32,9 @@ void main() async {
         ),
         BlocProvider(
           create: (_) => ShopBloc(),
+        ),
+        BlocProvider(
+          create: (_) => EstimationStepCubit(),
         ),
       ],
       child: const MainApp(),
