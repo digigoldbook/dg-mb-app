@@ -22,11 +22,15 @@ class _DepositePriceEstimationState extends State<DepositePriceEstimation> {
   final TextEditingController _unit = TextEditingController();
   final TextEditingController _insuranceRate = TextEditingController();
 
-  @override
-  void initState() {
-    var box = Hive.box('estimationData');
+  void _loadLocaData() async {
+    var box = await Hive.openBox('estimationData');
     _buyGoldPrice.text = box.get('goldBuyAmount', defaultValue: '0').toString();
     _goldWeight.text = box.get('productWeight', defaultValue: '0').toString();
+  }
+
+  @override
+  void initState() {
+    _loadLocaData();
     super.initState();
   }
 
