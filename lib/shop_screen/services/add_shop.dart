@@ -5,8 +5,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import '../../auth/sign_in/hive/token_storage.dart';
 
 final Dio _dio = Dio();
-final String url = dotenv.env['URL'] ?? "";
-
+final String url = dotenv.env['URL'] ?? 'http://192.168.1.87:3000/api';
 Future<bool> addNewShopService({
   required String shopName,
   required String shopAddress,
