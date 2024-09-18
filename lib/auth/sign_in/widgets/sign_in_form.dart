@@ -105,6 +105,7 @@ class _SignInFormState extends State<SignInForm> with TickerProviderStateMixin {
                         password: _password.text,
                       ),
                     );
+                //context.pushReplacementNamed("auth-screen");
               },
               width: double.infinity,
             ),

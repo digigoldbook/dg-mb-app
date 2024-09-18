@@ -60,8 +60,10 @@ class ProfilePage extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
-                        onPressed: () => TokenStorage.clearTokens().then(
-                            (_) => context.pushReplacementNamed("auth-screen")),
+                        onPressed: () {
+                          TokenStorage.clearTokens();
+                          context.pushReplacementNamed("auth-screen");
+                        },
                         icon: const Icon(
                           Icons.logout,
                           color: Colors.black,
