@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 
 import '../domain/fetch_bloc/shop_bloc.dart';
 import '../model/shop_model.dart';
@@ -73,6 +74,7 @@ class _ShopUiPageState extends State<ShopUiPage> {
                     ],
                   ),
                   child: ListTile(
+                    onTap: () => context.pushNamed("shop-details"),
                     title: Text(shop.shopName ?? 'Unknown Shop'),
                     subtitle: Text(shop.shopAddress ?? 'No Address'),
                     trailing: Text(shop.shopContact ?? 'No Contact'),
