@@ -23,7 +23,7 @@ class _GoldDepositState extends State<GoldDeposit> {
 
   Future getItems() async {
     final response = await dio.get(
-        "http://192.168.1.87:3000/api/v1/gold-deposit?page=1&perPage=10&sort=desc");
+        "http://192.168.1.87:3000/api/gold-deposit?page=1&perPage=10&sort=desc");
     if (response.statusCode == 200) {
       return response.data;
     }

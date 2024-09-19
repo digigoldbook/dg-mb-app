@@ -1,27 +1,21 @@
+// shop_page_delete_widget.dart
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import '../../components/utils/toast_utils.dart';
+import '../services/delete_shop.dart';
 
 class ShopPageDeleteWidget extends StatelessWidget {
   final int shopId;
   const ShopPageDeleteWidget({super.key, required this.shopId});
 
-  Future<void> _deleteShop(int shopId) async {
-    try {
-      Dio dio = Dio();
-      final String url = 'http://localhost:3000/api/v1/shops?shopId=$shopId';
+  Future<void> _handleDeleteShop(BuildContext context, int shopId) async {
+    bool isDeleted = await deleteShop(shopId);
 
-      final response = await dio.delete(url);
-
-      if (response.statusCode == 200) {
-        showToast('Shop deleted successfully!');
-      } else {
-        showToast('Failed to delete shop.');
-      }
-    } catch (e) {
-      showToast('Error: $e');
+    if (isDeleted) {
+      showToast('Shop deleted successfully!');
+    } else {
+      showToast('Failed to delete shop.');
     }
   }
 
@@ -55,7 +49,7 @@ class ShopPageDeleteWidget extends StatelessWidget {
         );
 
         if (confirmDelete == true) {
-          await _deleteShop(shopId);
+          await _handleDeleteShop(context, shopId);
         }
       },
       backgroundColor: const Color(0xFFFE4A49),

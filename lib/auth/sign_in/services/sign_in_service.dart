@@ -10,7 +10,6 @@ class SignInService {
   // final String url = "http://192.168.1.87:3000/api";
 
   Future<SignInResponseModel?> signInUser(String email, String password) async {
-    debugPrint(url);
     try {
       String uri = '$url/auth/sign-in';
       var data = {
