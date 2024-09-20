@@ -8,6 +8,7 @@ import '../../services/estimation/pages/time_estimation_cal.dart';
 import '../../services/pages/percentage_convert.dart';
 import '../../services/pages/unit_converter.dart';
 import '../../shop_screen/features/gold_deposit/pages/gold_deposit.dart';
+import '../../shop_screen/features/gold_deposit/widgets/gold_fab.dart';
 import '../../shop_screen/pages/shop_details_page.dart';
 import '../../shop_screen/pages/shop_page.dart';
 import '../../splash/pages/splash_page.dart';
@@ -68,6 +69,11 @@ final GoRouter appRoutes = GoRouter(
       path: '/gold-deposit',
       name: "gold-deposit",
       builder: (context, state) => const GoldDeposit(),
+    ),
+    GoRoute(
+      path: '/add-gold-deposit-record',
+      name: "add-gold-deposit-record",
+      builder: (context, state) => const GoldFAB(),
     ),
   ],
 );
