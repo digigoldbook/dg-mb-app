@@ -22,6 +22,10 @@ class ShopDetailsPage extends StatelessWidget {
               onTap: () => context.pushNamed("gold-deposit"),
               title: const Text("Gold Deposit"),
             ),
+            ListTile(
+              onTap: () => context.pushNamed("cash-deposit"),
+              title: const Text("Cash Deposit"),
+            ),
           ],
         ),
       ),

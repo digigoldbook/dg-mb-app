@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '../config/app_images.dart';
 import 'txt_widget.dart';
 
-PreferredSizeWidget customAppBar() {
+PreferredSizeWidget customAppBar({String? title}) {
   return AppBar(
-    title: const TxtWidget(
-      strText: "Abishek Khanal",
+    title: TxtWidget(
+      strText: title ?? "Digi Gold Book",
       style: TxtStyle.mdb,
     ),
     centerTitle: true,
