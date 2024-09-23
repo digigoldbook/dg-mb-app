@@ -8,6 +8,7 @@ part 'reset_password_state.dart';
 
 class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
   ResetPasswordBloc() : super(ResetPasswordInitial()) {
+    ResetPasswordService resetPasswordService = ResetPasswordService();
     on<ResetPasswordSubmitted>((event, emit) async {
       emit(ResetPasswordLoading());
       try {
@@ -15,7 +16,7 @@ class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
           'newPassword': event.password,
           'confirmPassword': event.confirmPassword,
         };
-        final response = await resetPasswordService(
+        final response = await resetPasswordService.resetPassword(
           params: {
             'email': event.email,
           },

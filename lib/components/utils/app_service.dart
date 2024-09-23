@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
 import '../../../../auth/sign_in/hive/token_storage.dart';
 
 class HttpService {
@@ -29,7 +28,47 @@ class HttpService {
         return handler.next(response);
       },
       onError: (DioException e, handler) async {
-        if (e.response?.statusCode == 401) {}
+        if (e.response?.statusCode == 401) {
+          final refreshToken = await TokenStorage.getRefreshToken();
+          if (refreshToken != null) {
+            try {
+              // Attempt to refresh the token
+              final refreshResponse = await _dio.post(
+                '/auth/verify-token',
+                data: {
+                  'refreshToken': refreshToken,
+                },
+              );
+
+              if (refreshResponse.statusCode == 200) {
+                // Assuming the new access token is in the response data
+                final newAccessToken = refreshResponse.data['accessToken'];
+                final newRefreshToken = refreshResponse.data['refreshToken'];
+
+                // Save the new tokens
+                await TokenStorage.saveTokens(newAccessToken, newRefreshToken);
+
+                // Retry the original request with the new token
+                final options = e.response?.requestOptions;
+                options?.headers['Authorization'] = 'Bearer $newAccessToken';
+
+                // Create a new Options object
+                final retryOptions = Options(
+                  method: options?.method,
+                  headers: options?.headers,
+                );
+
+                final retryResponse = await _dio.request(
+                  options!.path,
+                  options: retryOptions,
+                );
+                return handler.resolve(retryResponse);
+              }
+            } catch (refreshError) {
+              // Handle refresh token error (optional)
+            }
+          }
+        }
         return handler.next(e);
       },
     ));
