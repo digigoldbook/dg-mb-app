@@ -18,7 +18,7 @@ class ProfilePage extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          customAppBar(),
+          customAppBar(context),
           SizedBox(
             width: double.infinity,
             height: 300,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../shop_screen/features/cash_deposit/model/cash_deposit_model.dart';
 import '../helper/fetch_cash_deposit.dart';
 
@@ -15,14 +16,30 @@ class _ViewStatementState extends State<ViewStatement> {
   @override
   void initState() {
     super.initState();
+
+    // Force landscape mode and hide status/navigation bar for fullscreen mode
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
     futureCashDeposits = fetchCashDeposits();
+  }
+
+  @override
+  void dispose() {
+    // Reset to allow all orientations when leaving the screen
+    SystemChrome.setPreferredOrientations(DeviceOrientation.values);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('View Cash Deposit Statement'),
+        title: const Text('Statement'),
       ),
       body: FutureBuilder<CashDepositModel>(
         future: futureCashDeposits,

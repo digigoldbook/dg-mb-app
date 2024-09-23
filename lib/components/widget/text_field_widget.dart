@@ -8,6 +8,7 @@ class TextFieldWidget extends StatelessWidget {
   final bool? readOnly;
   final bool? isObscureText;
   final Widget? suffix;
+  final int? maxLine;
   const TextFieldWidget({
     super.key,
     required this.controller,
@@ -17,6 +18,7 @@ class TextFieldWidget extends StatelessWidget {
     this.readOnly,
     this.isObscureText,
     this.suffix,
+    this.maxLine,
   });
 
   @override
@@ -38,6 +40,7 @@ class TextFieldWidget extends StatelessWidget {
         keyboardType: inputType,
         controller: controller,
         readOnly: readOnly ?? false,
+        maxLines: maxLine ?? 1,
         decoration: InputDecoration(
           hintText: hintText,
           border: InputBorder.none,

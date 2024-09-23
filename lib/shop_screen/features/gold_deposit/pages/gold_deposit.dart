@@ -14,7 +14,7 @@ class _GoldDepositState extends State<GoldDeposit> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(),
+      appBar: customAppBar(context),
       body: const GoldItemsDisplay(),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.pushNamed("add-gold-deposit-record"),

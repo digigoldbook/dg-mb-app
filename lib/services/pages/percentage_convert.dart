@@ -13,6 +13,7 @@ class PercentageConvert extends StatefulWidget {
 class _PercentageConvertState extends State<PercentageConvert> {
   String _inputText = '';
   String _outputText = '';
+  bool _isCaretToPercentage = true; // To track conversion mode
 
   // Function to handle button clicks
   void _onButtonClick(String value) {
@@ -23,24 +24,38 @@ class _PercentageConvertState extends State<PercentageConvert> {
           _inputText = _inputText.substring(0, _inputText.length - 1);
         }
       } else if (value == '=') {
-        _calculatePercentage();
+        _calculate();
       } else {
         _inputText += value;
       }
     });
   }
 
-  // Method to calculate percentage based on 24 as 100%
-  void _calculatePercentage() {
+  // Method to calculate based on the current mode
+  void _calculate() {
     if (_inputText.isNotEmpty) {
       final inputValue = double.tryParse(_inputText);
       if (inputValue != null) {
-        if (inputValue > 24) {
-          showToast("Value exceeds 24. Not accepted!"); // Use the toast utility
-          _outputText = ''; // Clear output if the input exceeds 24
+        if (_isCaretToPercentage) {
+          // Caret to Percentage Calculation
+          if (inputValue > 24) {
+            showToast(
+                "Value exceeds 24. Not accepted!"); // Use the toast utility
+            _outputText = ''; // Clear output if the input exceeds 24
+          } else {
+            final percentage = (inputValue / 24) * 100;
+            _outputText = "${percentage.toStringAsFixed(2)}%";
+          }
         } else {
-          final percentage = (inputValue / 24) * 100;
-          _outputText = "${percentage.toStringAsFixed(2)}%";
+          // Percentage to Caret Calculation
+          if (inputValue > 100) {
+            showToast(
+                "Percentage exceeds 100%. Not accepted!"); // Use the toast utility
+            _outputText = ''; // Clear output if the input exceeds 100%
+          } else {
+            final caretValue = (inputValue / 100) * 24;
+            _outputText = "${caretValue.toStringAsFixed(2)} caret";
+          }
         }
       } else {
         showToast(
@@ -49,11 +64,22 @@ class _PercentageConvertState extends State<PercentageConvert> {
     }
   }
 
+  // Method to toggle between caret to percentage and percentage to caret
+  void _toggleConversionMode() {
+    setState(() {
+      _isCaretToPercentage = !_isCaretToPercentage;
+      _inputText = '';
+      _outputText = '';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Percentage Calculator"),
+        title: Text(_isCaretToPercentage
+            ? "Caret to Percentage Calculator"
+            : "Percentage to Caret Calculator"),
       ),
       body: Column(
         children: [
@@ -61,7 +87,10 @@ class _PercentageConvertState extends State<PercentageConvert> {
           Expanded(
             flex: 1,
             child: CalculatorDisplay(
-              inputText: _inputText,
+              inputText: _inputText +
+                  (_isCaretToPercentage
+                      ? ' caret'
+                      : ' %'), // Display symbol based on mode
               outputText: _outputText,
             ),
           ),
@@ -97,6 +126,11 @@ class _PercentageConvertState extends State<PercentageConvert> {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _toggleConversionMode,
+        tooltip: 'Toggle Conversion Mode',
+        child: const Icon(Icons.swap_horiz), // Icon to indicate switching modes
       ),
     );
   }

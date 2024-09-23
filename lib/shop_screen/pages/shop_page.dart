@@ -10,7 +10,7 @@ class ShopPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(),
+      appBar: customAppBar(context),
       body: const ShopUiPage(),
       floatingActionButton: const ShopPageFabBtn(),
     );

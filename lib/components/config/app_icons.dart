@@ -19,4 +19,5 @@ class AppIcons {
   final IconData security = Icons.security;
   final IconData visibility = Icons.visibility;
   final IconData visibility_off = Icons.visibility_off;
+  final IconData abc = Icons.abc;
 }

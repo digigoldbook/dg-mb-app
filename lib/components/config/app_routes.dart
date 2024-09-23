@@ -4,6 +4,7 @@ import '../../auth/auth_page.dart';
 import '../../auth/reset_password/pages/reset_password_page.dart';
 import '../../auth/sign_in/pages/sign_in_page.dart';
 import '../../auth/sign_up/pages/sign_up_page.dart';
+import '../../feedback/pages/feedback_page.dart';
 import '../../main_screen/pages/main_page.dart';
 import '../../services/estimation/pages/time_estimation_cal.dart';
 import '../../services/pages/percentage_convert.dart';
@@ -92,6 +93,11 @@ final GoRouter appRoutes = GoRouter(
       path: '/view-statement',
       name: "view-statement",
       builder: (context, state) => const ViewStatement(),
+    ),
+    GoRoute(
+      path: '/feedback',
+      name: "feedback",
+      builder: (context, state) => const FeedbackPage(),
     ),
   ],
 );

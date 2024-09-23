@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'auth/reset_password/bloc/reset_password_bloc.dart';
 import 'auth/sign_in/bloc/sign_in_bloc.dart';
 import 'components/config/app_routes.dart';
 import 'main_screen/cubit/bottom_nav_cubit.dart';
@@ -29,6 +30,9 @@ void main() async {
         ),
         BlocProvider(
           create: (_) => SignInBloc(),
+        ),
+        BlocProvider(
+          create: (_) => ResetPasswordBloc(),
         ),
         BlocProvider(
           create: (_) => ShopBloc(),

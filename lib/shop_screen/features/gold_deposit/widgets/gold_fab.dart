@@ -22,7 +22,7 @@ class _GoldFABState extends State<GoldFAB> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(),
+      appBar: customAppBar(context),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(

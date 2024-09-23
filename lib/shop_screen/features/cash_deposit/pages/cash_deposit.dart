@@ -9,7 +9,7 @@ class CashDeposit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(),
+      appBar: customAppBar(context),
       body: const ListItemsCashDeposit(),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showModalBottomSheet(

@@ -21,15 +21,32 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   final TextEditingController _password = TextEditingController();
   final TextEditingController _confirmPassword = TextEditingController();
   bool _isHidden = true;
+  bool _showPasswordFields = false; // Add a flag to control visibility
+
+  @override
+  void initState() {
+    super.initState();
+    _email.addListener(_checkEmail); // Add listener for email field
+  }
+
+  void _checkEmail() {
+    setState(() {
+      // Show password fields only if email is entered
+      _showPasswordFields = _email.text.isNotEmpty;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(title: "Reset Password"),
+      appBar: customAppBar(
+        context,
+        title: "Reset Password",
+      ),
       body: BlocListener<ResetPasswordBloc, ResetPasswordState>(
         listener: (context, state) {
           if (state is ResetPasswordLoading) {
-            showToast("Reseting Password");
+            showToast("Resetting Password");
           } else if (state is ResetPasswordSuccess) {
             showToast("Password reset successful");
           } else if (state is ResetPasswordFailure) {
@@ -46,47 +63,51 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               prefixIcon: AppIcons.instance.email,
             ),
             const Gap(16),
-            TextFieldWidget(
-              isObscureText: _isHidden,
-              controller: _password,
-              inputType: TextInputType.visiblePassword,
-              hintText: "New Password",
-              prefixIcon: AppIcons.instance.security,
-              suffix: IconButton(
-                onPressed: () => setState(() {
-                  _isHidden = !_isHidden;
-                }),
-                icon: Icon(
-                  _isHidden
-                      ? AppIcons.instance.visibility_off
-                      : AppIcons.instance.visibility,
+
+            // Conditionally show password fields and button based on _showPasswordFields
+            if (_showPasswordFields) ...[
+              TextFieldWidget(
+                isObscureText: _isHidden,
+                controller: _password,
+                inputType: TextInputType.visiblePassword,
+                hintText: "New Password",
+                prefixIcon: AppIcons.instance.security,
+                suffix: IconButton(
+                  onPressed: () => setState(() {
+                    _isHidden = !_isHidden;
+                  }),
+                  icon: Icon(
+                    _isHidden
+                        ? AppIcons.instance.visibility_off
+                        : AppIcons.instance.visibility,
+                  ),
                 ),
               ),
-            ),
-            const Gap(16),
-            TextFieldWidget(
-              controller: _confirmPassword,
-              inputType: TextInputType.visiblePassword,
-              hintText: "Confirm Password",
-              prefixIcon: AppIcons.instance.security,
-            ),
-            const Gap(8 * 4),
-            BtnWidget(
-              btnText: "Reset Password",
-              onTap: () {
-                if (_password.text == _confirmPassword.text) {
-                  context.read<ResetPasswordBloc>().add(
-                        ResetPasswordSubmitted(
-                          email: _email.text,
-                          password: _password.text,
-                          confirmPassword: _confirmPassword.text,
-                        ),
-                      );
-                } else {
-                  showToast("Password do not match!");
-                }
-              },
-            ),
+              const Gap(16),
+              TextFieldWidget(
+                controller: _confirmPassword,
+                inputType: TextInputType.visiblePassword,
+                hintText: "Confirm Password",
+                prefixIcon: AppIcons.instance.security,
+              ),
+              const Gap(32),
+              BtnWidget(
+                btnText: "Reset Password",
+                onTap: () {
+                  if (_password.text == _confirmPassword.text) {
+                    context.read<ResetPasswordBloc>().add(
+                          ResetPasswordSubmitted(
+                            email: _email.text,
+                            password: _password.text,
+                            confirmPassword: _confirmPassword.text,
+                          ),
+                        );
+                  } else {
+                    showToast("Passwords do not match!");
+                  }
+                },
+              ),
+            ],
           ],
         ),
       ),
