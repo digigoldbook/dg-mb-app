@@ -32,3 +32,23 @@ final class CashDepositLoaded extends CashDepositState {
   @override
   List<Object> get props => [cashDepositModel];
 }
+
+class InterestCalculated extends CashDepositState {
+  final double interest;
+
+  const InterestCalculated(this.interest);
+
+  @override
+  List<Object> get props => [interest];
+}
+
+class CashDepositSuccess extends CashDepositState {}
+
+class CashDepositFailure extends CashDepositState {
+  final String error;
+
+  const CashDepositFailure(this.error);
+
+  @override
+  List<Object> get props => [error];
+}

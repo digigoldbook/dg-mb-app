@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+
 import '../../../../components/utils/app_service.dart';
 import '../model/cash_deposit_model.dart';
 
@@ -17,17 +19,26 @@ class Cashdepositservice {
     }
   }
 
-  Future<void> submitGoldDeposit(Map<String, dynamic> data) async {
+  Future<Response> submitCashDeposit(Map<String, dynamic> data) async {
     try {
       final response = await _httpService.post('/cash-deposit/', data: data);
 
-      if (response.statusCode == 201) {
-        // Handle success
-      } else {
-        // Handle non-success status codes
-      }
+      return response;
     } catch (e) {
-      // Handle network or other errors
+      throw "Error: $e";
+    }
+  }
+
+  Future<Response> deleteCashDeposit(Map<String, dynamic> data) async {
+    try {
+      final response = await _httpService.delete(
+        '/cash-deposit/',
+        params: data,
+      );
+
+      return response;
+    } catch (e) {
+      throw "Error: $e";
     }
   }
 }

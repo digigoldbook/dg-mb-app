@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../components/config/app_colors.dart';
+import '../../../../components/widget/btn_widget.dart';
+import '../../../../components/widget/txt_widget.dart';
 import '../bloc/cash_deposit_bloc.dart';
 
 class ListItemsCashDeposit extends StatelessWidget {
@@ -40,30 +45,54 @@ class ListItemsCashDeposit extends StatelessWidget {
                 } else if (timeUnit == "year") {
                   timeInDays = time * 365;
                 } else {
-                  timeInDays = 0; // Handle error or default case
+                  timeInDays = 0;
                 }
 
                 // Calculate interest
                 double interest = (principal * rate * timeInDays) / (100 * 365);
-
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Customer Name: ${item.customerName ?? 'N/A'}"),
-                        Text(
-                            "Customer Contact: ${item.customerContact ?? 'N/A'}"),
-                        Text(
-                          "P - ${item.amount} | T - ${item.time} (${item.timeUnit}) | R - ${item.rate}%",
-                        ),
-                        Text(
-                          "Interest: Rs ${interest.toStringAsFixed(2)}",
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                return ListTile(
+                  title: Text(item.customerName ?? 'N/A'),
+                  subtitle: Text(
+                    "P - ${item.amount} | T - ${item.time} (${item.timeUnit}) | R - ${item.rate}%",
+                  ),
+                  trailing: IconButton(
+                    onPressed: () => showModalBottomSheet(
+                      context: context,
+                      builder: (context) => ListView(
+                        padding: const EdgeInsets.all(16),
+                        children: [
+                          const Center(
+                            child: TxtWidget(
+                              strText: "Cash Deposit Details",
+                              style: TxtStyle.md,
+                            ),
+                          ),
+                          const Gap(16),
+                          TxtWidget(
+                            strText:
+                                "Principal: $principal \n Time: $time \n Rate: $rate",
+                            style: TxtStyle.rg,
+                          ),
+                          const Gap(16),
+                          TxtWidget(
+                            strText: "Interest: ${interest.toStringAsFixed(2)}",
+                            style: TxtStyle.rgb,
+                          ),
+                          const Gap(16),
+                          BtnWidget(
+                            btnText: "Delete",
+                            color: AppColors.instance.redColor,
+                            onTap: () {
+                              context
+                                  .read<CashDepositBloc>()
+                                  .add(DeleteCashDepositEvent(item.id!));
+                              context.pop();
+                            },
+                          ),
+                        ],
+                      ),
                     ),
+                    icon: const Icon(Icons.visibility),
                   ),
                 );
               },

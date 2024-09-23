@@ -10,4 +10,5 @@ class AppImages {
   final String galleryPng = "assets/images/main/gallery.png";
   final String personPng = "assets/images/main/user.png";
   final String dashboardPng = "assets/images/main/dashboard.png";
+  final String agendaPng = "assets/images/main/agenda.png";
 }

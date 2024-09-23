@@ -24,11 +24,10 @@ final List<Map<String, dynamic>> servicesUtils = [
     "path": "time-estimation-cal",
   },
   {
-    "title": "Estimation",
-    "description":
-        "Property valuation on the basis of time period of given time",
-    "image": "assets/images/service/machine.png",
+    "title": "View Statement",
+    "description": "Daily Book and record view of table",
+    "image": "assets/images/service/agenda.png",
     "color": const Color(0xffF0EBE3),
-    "path": "",
+    "path": "view-statement",
   }
 ];

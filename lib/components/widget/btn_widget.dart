@@ -7,10 +7,12 @@ class BtnWidget extends StatelessWidget {
   final Function() onTap;
   final double? width;
   final bool? isSolid;
+  final Color? color;
   const BtnWidget({
     super.key,
     required this.btnText,
     required this.onTap,
+    this.color,
     this.width,
     this.isSolid = true,
   });
@@ -27,7 +29,7 @@ class BtnWidget extends StatelessWidget {
         ),
         decoration: isSolid!
             ? BoxDecoration(
-                color: const Color(0xff7695FF),
+                color: color ?? const Color(0xff7695FF),
                 borderRadius: BorderRadius.circular(6),
               )
             : BoxDecoration(

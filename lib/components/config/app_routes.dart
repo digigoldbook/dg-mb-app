@@ -13,6 +13,7 @@ import '../../shop_screen/features/gold_deposit/widgets/gold_fab.dart';
 import '../../shop_screen/pages/shop_details_page.dart';
 import '../../shop_screen/pages/shop_page.dart';
 import '../../splash/pages/splash_page.dart';
+import '../../statement/pages/view_statement.dart';
 
 final GoRouter appRoutes = GoRouter(
   routes: [
@@ -80,6 +81,11 @@ final GoRouter appRoutes = GoRouter(
       path: '/add-gold-deposit-record',
       name: "add-gold-deposit-record",
       builder: (context, state) => const GoldFAB(),
+    ),
+    GoRoute(
+      path: '/view-statement',
+      name: "view-statement",
+      builder: (context, state) => const ViewStatement(),
     ),
   ],
 );

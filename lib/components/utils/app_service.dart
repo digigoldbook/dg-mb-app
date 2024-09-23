@@ -56,4 +56,18 @@ class HttpService {
       rethrow;
     }
   }
+
+  Future<Response> delete(
+    String path, {
+    Map<String, dynamic>? params,
+  }) async {
+    try {
+      return await _dio.delete(
+        path,
+        queryParameters: params,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
