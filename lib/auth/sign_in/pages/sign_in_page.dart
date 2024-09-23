@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../components/utils/toast_utils.dart';
 import '../../../components/widget/txt_widget.dart';
+import '../../widgets/auth_footer.dart';
 import '../../widgets/auth_header.dart';
 import '../bloc/sign_in_bloc.dart';
 import '../widgets/sign_in_form.dart';
@@ -65,11 +66,11 @@ class _SignInPageState extends State<SignInPage> {
                     ],
                   ),
                   // Uncomment and implement AuthFooter if needed
-                  // AuthFooter(
-                  //   leadingTxt: "Don't have an account?",
-                  //   trailingTxt: " Create Account",
-                  //   path: () => context.pushNamed("sign-up"),
-                  // ),
+                  AuthFooter(
+                    leadingTxt: "Don't have an account?",
+                    trailingTxt: " Create Account",
+                    path: () => context.pushNamed("sign-up"),
+                  ),
                 ],
               ),
             ),

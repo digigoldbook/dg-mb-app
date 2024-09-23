@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/utils/toast_utils.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../components/animation/fade_animation.dart';
 import '../../../components/widget/btn_widget.dart';
 import '../../../components/widget/text_field_widget.dart';
+import '../bloc/sign_up_bloc.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -77,71 +80,90 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          FadeTransition(
-            opacity: _fullNameFadeAnimation.animation,
-            child: TextFieldWidget(
-              inputType: TextInputType.name,
-              controller: _fullName,
-              hintText: 'Full Name',
-              prefixIcon: Icons.person,
+    return BlocListener<SignUpBloc, SignUpState>(
+      listener: (context, state) {
+        if (state is SignUpSuccess) {
+          showToast("Account has been created");
+          context.pushNamed("sign-in");
+        } else if (state is SignUpFailure) {
+          showToast(state.error);
+        }
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            FadeTransition(
+              opacity: _fullNameFadeAnimation.animation,
+              child: TextFieldWidget(
+                inputType: TextInputType.name,
+                controller: _fullName,
+                hintText: 'Full Name',
+                prefixIcon: Icons.person,
+              ),
             ),
-          ),
-          const Gap(16),
-          FadeTransition(
-            opacity: _emailFadeAnimation.animation,
-            child: TextFieldWidget(
-              inputType: TextInputType.emailAddress,
-              controller: _email,
-              hintText: 'Email',
-              prefixIcon: Icons.mail,
+            const Gap(16),
+            FadeTransition(
+              opacity: _emailFadeAnimation.animation,
+              child: TextFieldWidget(
+                inputType: TextInputType.emailAddress,
+                controller: _email,
+                hintText: 'Email',
+                prefixIcon: Icons.mail,
+              ),
             ),
-          ),
-          const Gap(16),
-          FadeTransition(
-            opacity: _phoneNoFadeAnimation.animation,
-            child: TextFieldWidget(
-              inputType: TextInputType.phone,
-              controller: _phoneNo,
-              hintText: 'Phone Number',
-              prefixIcon: Icons.phone,
+            const Gap(16),
+            FadeTransition(
+              opacity: _phoneNoFadeAnimation.animation,
+              child: TextFieldWidget(
+                inputType: TextInputType.phone,
+                controller: _phoneNo,
+                hintText: 'Phone Number',
+                prefixIcon: Icons.phone,
+              ),
             ),
-          ),
-          const Gap(16),
-          FadeTransition(
-            opacity: _passwordFadeAnimation.animation,
-            child: TextFieldWidget(
-              inputType: TextInputType.text,
-              isObscureText: _isHidden,
-              controller: _password,
-              hintText: 'Password',
-              prefixIcon: Icons.lock,
-              suffix: IconButton(
-                onPressed: () {
-                  setState(() {
-                    _isHidden = !_isHidden;
-                  });
-                },
-                icon: Icon(
-                  _isHidden ? Icons.visibility_off : Icons.visibility,
+            const Gap(16),
+            FadeTransition(
+              opacity: _passwordFadeAnimation.animation,
+              child: TextFieldWidget(
+                inputType: TextInputType.text,
+                isObscureText: _isHidden,
+                controller: _password,
+                hintText: 'Password',
+                prefixIcon: Icons.lock,
+                suffix: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      _isHidden = !_isHidden;
+                    });
+                  },
+                  icon: Icon(
+                    _isHidden ? Icons.visibility_off : Icons.visibility,
+                  ),
                 ),
               ),
             ),
-          ),
-          const Gap(24),
-          FadeTransition(
-            opacity: _buttonFadeAnimation.animation,
-            child: BtnWidget(
-              btnText: "Sign Up",
-              onTap: () => context.pushReplacementNamed("main"),
-              width: double.infinity,
+            const Gap(24),
+            FadeTransition(
+              opacity: _buttonFadeAnimation.animation,
+              child: BtnWidget(
+                btnText: "Sign Up",
+                onTap: () {
+                  context.read<SignUpBloc>().add(
+                        SignUpSubmittedEvent(
+                          email: _email.text,
+                          password: _password.text,
+                          fullname: _fullName.text,
+                          contactNo: _phoneNo.text,
+                        ),
+                      );
+                },
+                width: double.infinity,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

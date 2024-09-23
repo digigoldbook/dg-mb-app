@@ -5,6 +5,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'auth/reset_password/bloc/reset_password_bloc.dart';
 import 'auth/sign_in/bloc/sign_in_bloc.dart';
+import 'auth/sign_up/bloc/sign_up_bloc.dart';
 import 'components/config/app_routes.dart';
 import 'main_screen/cubit/bottom_nav_cubit.dart';
 import 'services/estimation/cubit/estimation_step_cubit.dart';
@@ -30,6 +31,9 @@ void main() async {
         ),
         BlocProvider(
           create: (_) => SignInBloc(),
+        ),
+        BlocProvider(
+          create: (_) => SignUpBloc(),
         ),
         BlocProvider(
           create: (_) => ResetPasswordBloc(),
