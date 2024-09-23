@@ -15,4 +15,8 @@ class AppIcons {
   final IconData locationCity = Icons.location_city;
   final IconData number = Icons.numbers;
   final IconData phone = Icons.phone;
+  final IconData email = Icons.mail;
+  final IconData security = Icons.security;
+  final IconData visibility = Icons.visibility;
+  final IconData visibility_off = Icons.visibility_off;
 }

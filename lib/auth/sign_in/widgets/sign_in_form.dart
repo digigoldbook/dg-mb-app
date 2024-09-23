@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/widget/txt_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../components/animation/fade_animation.dart';
 import '../../../components/widget/btn_widget.dart';
@@ -93,6 +95,13 @@ class _SignInFormState extends State<SignInForm> with TickerProviderStateMixin {
               ),
             ),
           ),
+          TextButton(
+            onPressed: () => context.pushNamed("reset-password"),
+            child: const TxtWidget(
+              strText: "Forgot Password",
+              style: TxtStyle.rg,
+            ),
+          ),
           const Gap(24),
           FadeTransition(
             opacity: _buttonFadeAnimation.animation,
@@ -105,19 +114,10 @@ class _SignInFormState extends State<SignInForm> with TickerProviderStateMixin {
                         password: _password.text,
                       ),
                     );
-                //context.pushReplacementNamed("auth-screen");
               },
               width: double.infinity,
             ),
           ),
-          // FadeTransition(
-          //   opacity: _buttonFadeAnimation.animation,
-          //   child: BtnWidget(
-          //     btnText: "Sign in",
-          //     onTap: () => context.pushReplacementNamed("main"),
-          //     width: double.infinity,
-          //   ),
-          // ),
         ],
       ),
     );

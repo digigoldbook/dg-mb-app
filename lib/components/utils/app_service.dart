@@ -70,4 +70,20 @@ class HttpService {
       rethrow;
     }
   }
+
+  Future<Response> put(
+    String path, {
+    Map<String, dynamic>? params,
+    Map<String, dynamic>? data,
+  }) async {
+    try {
+      return await _dio.put(
+        path,
+        queryParameters: params,
+        data: data,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

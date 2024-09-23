@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 
 import '../../auth/auth_page.dart';
+import '../../auth/reset_password/pages/reset_password_page.dart';
 import '../../auth/sign_in/pages/sign_in_page.dart';
 import '../../auth/sign_up/pages/sign_up_page.dart';
 import '../../main_screen/pages/main_page.dart';
@@ -41,6 +42,11 @@ final GoRouter appRoutes = GoRouter(
       path: '/sign-up',
       name: "sign-up",
       builder: (context, state) => const SignUpPage(),
+    ),
+    GoRoute(
+      path: '/reset-password',
+      name: "reset-password",
+      builder: (context, state) => const ResetPasswordPage(),
     ),
     GoRoute(
       path: '/percentage-converter',
