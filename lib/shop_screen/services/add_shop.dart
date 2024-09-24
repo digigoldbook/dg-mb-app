@@ -28,7 +28,10 @@ Future<bool> addNewShopService({
         "shop_reg_no": shopRegNo,
         "shop_contact": shopContact,
         "meta": [
-          {"meta_key": "owner", "meta_value": userId}
+          {
+            "meta_key": "owner",
+            "meta_value": userId,
+          }
         ]
       };
 

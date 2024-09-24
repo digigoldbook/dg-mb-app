@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../../../../components/utils/app_service.dart';
 import '../model/gold_deposit_model.dart';
 
@@ -23,14 +25,14 @@ class Golddepositservice {
 
       if (response.statusCode == 201) {
         // Handle success
-        print('Success: ${response.data}');
+        debugPrint('Success: ${response.data}');
       } else {
         // Handle non-success status codes
-        print('Error: ${response.statusCode}');
+        debugPrint('Error: ${response.statusCode}');
       }
     } catch (e) {
       // Handle network or other errors
-      print('Exception: $e');
+      debugPrint('Exception: $e');
     }
   }
 }

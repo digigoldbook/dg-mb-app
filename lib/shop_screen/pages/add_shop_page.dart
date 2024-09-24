@@ -62,35 +62,35 @@ class _AddShopPageState extends State<AddShopPage> {
           TextFieldWidget(
             controller: _shopName,
             inputType: TextInputType.text,
-            hintText: 'Sharma Pvt. Ltd.',
+            hintText: 'Shop Name',
             prefixIcon: AppIcons.instance.shop,
           ),
           const Gap(16),
           TextFieldWidget(
             controller: _shopAddress,
             inputType: TextInputType.text,
-            hintText: 'Kathmandu-16, Banasthali',
-            prefixIcon: AppIcons.instance.locationCity,
+            hintText: 'Shop Address',
+            prefixIcon: AppIcons.instance.navigation,
           ),
           const Gap(16),
           TextFieldWidget(
             controller: _shopRegNo,
             inputType: TextInputType.text,
-            hintText: '1244Px21',
+            hintText: 'Registration No.',
             prefixIcon: AppIcons.instance.number,
           ),
           const Gap(16),
           TextFieldWidget(
             controller: _shopContact,
             inputType: TextInputType.number,
-            hintText: '9845009423',
+            hintText: 'Contact No.',
             prefixIcon: AppIcons.instance.phone,
           ),
           const Gap(8 * 4),
           _isLoading // Show loader if it's loading
               ? const CircularProgressIndicator()
               : BtnWidget(
-                  btnText: "Add New",
+                  btnText: "Register Shop",
                   onTap: () async {
                     await _addNewShop();
                   },

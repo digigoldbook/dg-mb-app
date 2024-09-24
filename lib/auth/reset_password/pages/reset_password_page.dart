@@ -113,7 +113,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               }),
               icon: Icon(
                 _isHidden
-                    ? AppIcons.instance.visibility_off
+                    ? AppIcons.instance.visibilityoff
                     : AppIcons.instance.visibility,
               ),
             ),

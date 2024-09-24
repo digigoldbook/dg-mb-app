@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../components/config/app_icons.dart';
 import '../pages/add_shop_page.dart';
 
 class ShopPageFabBtn extends StatefulWidget {
@@ -29,8 +30,8 @@ class _ShopPageFabBtnState extends State<ShopPageFabBtn> {
           },
         ),
       ),
-      icon: const Icon(Icons.add),
-      label: const Text("Create"),
+      icon: Icon(AppIcons.instance.shop),
+      label: const Text("Register Shop"),
     );
   }
 }

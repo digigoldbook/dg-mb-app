@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
+import 'package:jwt_decoder/jwt_decoder.dart'; // For decoding JWT token
 
 import '../domain/fetch_bloc/shop_bloc.dart';
 import '../model/shop_model.dart';
+import '../../auth/sign_in/hive/token_storage.dart';
 import '../widgets/shop_page_delete_widget.dart';
-import '../widgets/shop_page_update_widget.dart';
+import '../widgets/shop_page_update_widget.dart'; // Import TokenStorage for access token
 
 class ShopUiPage extends StatefulWidget {
   const ShopUiPage({super.key});
@@ -17,12 +19,25 @@ class ShopUiPage extends StatefulWidget {
 
 class _ShopUiPageState extends State<ShopUiPage> {
   final ScrollController _scrollController = ScrollController();
+  int? _currentUserId;
 
   @override
   void initState() {
+    super.initState();
+    _getUserIdFromToken(); // Extract user ID from token
     context.read<ShopBloc>().add(GetShopList());
     _scrollController.addListener(_onScroll);
-    super.initState();
+  }
+
+  Future<void> _getUserIdFromToken() async {
+    String? accessToken = await TokenStorage.getAccessToken();
+    if (accessToken != null) {
+      Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
+      setState(() {
+        _currentUserId = int.tryParse(
+            decodedToken['userId'].toString()); // Ensure correct type
+      });
+    }
   }
 
   @override
@@ -52,8 +67,16 @@ class _ShopUiPageState extends State<ShopUiPage> {
           return const Center(child: CircularProgressIndicator());
         } else if (state is ShopError) {
           return Center(child: Text(state.strError));
-        } else if (state is ShopSuccess) {
-          final shops = state.shopModel.shopData!;
+        } else if (state is ShopSuccess && _currentUserId != null) {
+          // Filter shops based on user ownership
+          final shops = state.shopModel.shopData!
+              .where((shop) => _isShopOwnedByUser(shop, _currentUserId!))
+              .toList();
+
+          if (shops.isEmpty) {
+            return const Center(child: Text("No shops found for this user."));
+          }
+
           return ListView.separated(
             padding: const EdgeInsets.all(16),
             separatorBuilder: (context, index) => const Divider(),
@@ -61,31 +84,35 @@ class _ShopUiPageState extends State<ShopUiPage> {
             itemCount: shops.length,
             itemBuilder: (context, index) {
               final ShopData shop = shops[index];
-              if (index == shops.length) {
-                return const Center(child: CircularProgressIndicator());
-              } else {
-                return Slidable(
-                  key: const ValueKey(0),
-                  startActionPane: ActionPane(
-                    motion: const StretchMotion(),
-                    children: [
-                      ShopPageUpdateWidget(shopId: shop.id!),
-                      ShopPageDeleteWidget(shopId: shop.id!),
-                    ],
-                  ),
-                  child: ListTile(
-                    onTap: () => context.pushNamed("shop-details"),
-                    title: Text(shop.shopName ?? 'Unknown Shop'),
-                    subtitle: Text(shop.shopAddress ?? 'No Address'),
-                    trailing: Text(shop.shopContact ?? 'No Contact'),
-                  ),
-                );
-              }
+              return Slidable(
+                key: ValueKey(shop.id),
+                startActionPane: ActionPane(
+                  motion: const StretchMotion(),
+                  children: [
+                    ShopPageUpdateWidget(shopId: shop.id!),
+                    ShopPageDeleteWidget(shopId: shop.id!),
+                  ],
+                ),
+                child: ListTile(
+                  onTap: () => context.pushNamed("shop-details"),
+                  title: Text(shop.shopName ?? 'Unknown Shop'),
+                  subtitle: Text(shop.shopAddress ?? 'No Address'),
+                  trailing: Text(shop.shopContact ?? 'No Contact'),
+                ),
+              );
             },
           );
         }
         return const SizedBox.shrink();
       },
     );
+  }
+
+  bool _isShopOwnedByUser(ShopData shop, int currentUserId) {
+    final ownerMeta = shop.shopMeta?.firstWhere(
+      (meta) => meta.metaKey == 'owner',
+    );
+
+    return ownerMeta != null && ownerMeta.metaValue == currentUserId.toString();
   }
 }

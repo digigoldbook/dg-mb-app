@@ -12,12 +12,13 @@ class AppIcons {
   final IconData gallery = Icons.image;
   final IconData notificationOutlined = Icons.notifications_outlined;
   final IconData shop = Icons.shop;
-  final IconData locationCity = Icons.location_city;
+  final IconData navigation = Icons.navigation;
   final IconData number = Icons.numbers;
   final IconData phone = Icons.phone;
   final IconData email = Icons.mail;
   final IconData security = Icons.security;
   final IconData visibility = Icons.visibility;
-  final IconData visibility_off = Icons.visibility_off;
+  final IconData visibilityoff = Icons.visibility_off;
   final IconData abc = Icons.abc;
+  final IconData notification = Icons.notifications;
 }

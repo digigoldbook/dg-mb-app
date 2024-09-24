@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import '../../../../auth/sign_in/hive/token_storage.dart';
+
+import '../../auth/sign_in/hive/token_storage.dart';
 
 class HttpService {
   final Dio _dio = Dio();
@@ -25,6 +27,7 @@ class HttpService {
         return handler.next(options);
       },
       onResponse: (response, handler) {
+        debugPrint('Response received: ${response.data}');
         return handler.next(response);
       },
       onError: (DioException e, handler) async {
@@ -32,7 +35,6 @@ class HttpService {
           final refreshToken = await TokenStorage.getRefreshToken();
           if (refreshToken != null) {
             try {
-              // Attempt to refresh the token
               final refreshResponse = await _dio.post(
                 '/auth/verify-token',
                 data: {
@@ -41,18 +43,14 @@ class HttpService {
               );
 
               if (refreshResponse.statusCode == 200) {
-                // Assuming the new access token is in the response data
                 final newAccessToken = refreshResponse.data['accessToken'];
                 final newRefreshToken = refreshResponse.data['refreshToken'];
 
-                // Save the new tokens
                 await TokenStorage.saveTokens(newAccessToken, newRefreshToken);
 
-                // Retry the original request with the new token
                 final options = e.response?.requestOptions;
                 options?.headers['Authorization'] = 'Bearer $newAccessToken';
 
-                // Create a new Options object
                 final retryOptions = Options(
                   method: options?.method,
                   headers: options?.headers,
@@ -65,10 +63,11 @@ class HttpService {
                 return handler.resolve(retryResponse);
               }
             } catch (refreshError) {
-              // Handle refresh token error (optional)
+              debugPrint('Token refresh failed: $refreshError');
             }
           }
         }
+        debugPrint('Error occurred: ${e.message}');
         return handler.next(e);
       },
     ));
@@ -81,6 +80,7 @@ class HttpService {
     try {
       return await _dio.get(path, queryParameters: queryParameters);
     } catch (e) {
+      debugPrint('GET request failed: $e');
       rethrow;
     }
   }
@@ -92,6 +92,7 @@ class HttpService {
     try {
       return await _dio.post(path, data: data);
     } catch (e) {
+      debugPrint('POST request failed: $e');
       rethrow;
     }
   }
@@ -101,11 +102,9 @@ class HttpService {
     Map<String, dynamic>? params,
   }) async {
     try {
-      return await _dio.delete(
-        path,
-        queryParameters: params,
-      );
+      return await _dio.delete(path, queryParameters: params);
     } catch (e) {
+      debugPrint('DELETE request failed: $e');
       rethrow;
     }
   }
@@ -116,12 +115,9 @@ class HttpService {
     Map<String, dynamic>? data,
   }) async {
     try {
-      return await _dio.put(
-        path,
-        queryParameters: params,
-        data: data,
-      );
+      return await _dio.put(path, queryParameters: params, data: data);
     } catch (e) {
+      debugPrint('PUT request failed: $e');
       rethrow;
     }
   }
