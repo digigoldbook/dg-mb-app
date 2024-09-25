@@ -1,21 +1,18 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import '../../../components/utils/app_service.dart';
 import '../model/sign_in_response_model.dart';
 
 class SignInService {
-  final Dio _dio = Dio();
-  final String url = dotenv.env['URL'] ?? '';
+  final HttpService _httpService = HttpService();
 
   Future<SignInResponseModel?> signInUser(String email, String password) async {
     try {
-      String uri = '$url/auth/sign-in';
-      var data = {
+      final data = {
         "email": email,
         "password": password,
       };
-      Response response = await _dio.post(uri, data: data);
+      Response response = await _httpService.post("/auth/sign-in", data: data);
 
       if (response.statusCode == 200) {
         final signInResponse = SignInResponseModel.fromJson(response.data);
@@ -23,8 +20,17 @@ class SignInService {
       } else {
         return null;
       }
+    } on DioException catch (error) {
+      if (error.response != null) {
+        final errorMessage =
+            error.response?.data['message'] ?? 'Unknown error occurred';
+        throw Exception("$errorMessage");
+      } else {
+        // Error without a response (like no internet, request timeout, etc.)
+        throw Exception("Connection Error: ${error.message}");
+      }
     } catch (error) {
-      debugPrint(error.toString());
+      // Handling other errors
       throw Exception("Internal Server Error: $error");
     }
   }

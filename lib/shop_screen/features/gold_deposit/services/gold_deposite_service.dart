@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 
 import '../../../../components/utils/app_service.dart';
 import '../model/gold_deposit_model.dart';
@@ -19,20 +19,12 @@ class Golddepositservice {
     }
   }
 
-  Future<void> submitGoldDeposit(Map<String, dynamic> data) async {
+  Future<Response> submitGoldDeposit(Map<String, dynamic> data) async {
     try {
       final response = await _httpService.post('/gold-deposit/', data: data);
-
-      if (response.statusCode == 201) {
-        // Handle success
-        debugPrint('Success: ${response.data}');
-      } else {
-        // Handle non-success status codes
-        debugPrint('Error: ${response.statusCode}');
-      }
+      return response;
     } catch (e) {
-      // Handle network or other errors
-      debugPrint('Exception: $e');
+      throw '$e';
     }
   }
 }

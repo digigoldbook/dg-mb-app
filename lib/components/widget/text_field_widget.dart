@@ -5,6 +5,7 @@ class TextFieldWidget extends StatelessWidget {
   final TextInputType inputType;
   final String hintText;
   final IconData prefixIcon;
+
   final bool? readOnly;
   final bool? isObscureText;
   final Widget? suffix;

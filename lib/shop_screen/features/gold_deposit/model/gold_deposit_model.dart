@@ -3,7 +3,11 @@ class GoldDepositModel {
   List<GoldItemData>? data;
   Pagination? pagination;
 
-  GoldDepositModel({this.status, this.data, this.pagination});
+  GoldDepositModel({
+    this.status,
+    this.data,
+    this.pagination,
+  });
 
   GoldDepositModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -33,30 +37,63 @@ class GoldDepositModel {
 
 class GoldItemData {
   int? id;
-  String? postTitle;
-  int? userId;
-  List<Items>? items;
+  String? productName;
+  List<ProductTitle>? productTitle;
+  String? serialNo;
+  String? uniqueCode;
+  String? customerName;
+  int? customerContact;
+  String? bankBoneNumber;
+  int? itemCount;
+  String? productAmount;
+  String? productRate;
+  int? duration;
+  String? durationUnit;
+  String? productStatus;
+  int? shopId;
   String? createdAt;
   String? updatedAt;
 
   GoldItemData(
       {this.id,
-      this.postTitle,
-      this.userId,
-      this.items,
+      this.productName,
+      this.productTitle,
+      this.serialNo,
+      this.uniqueCode,
+      this.customerName,
+      this.customerContact,
+      this.bankBoneNumber,
+      this.itemCount,
+      this.productAmount,
+      this.productRate,
+      this.duration,
+      this.durationUnit,
+      this.productStatus,
+      this.shopId,
       this.createdAt,
       this.updatedAt});
 
   GoldItemData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    postTitle = json['post_title'];
-    userId = json['userId'];
-    if (json['items'] != null) {
-      items = <Items>[];
-      json['items'].forEach((v) {
-        items!.add(Items.fromJson(v));
+    productName = json['product_name'];
+    if (json['product_title'] != null) {
+      productTitle = <ProductTitle>[];
+      json['product_title'].forEach((v) {
+        productTitle!.add(ProductTitle.fromJson(v));
       });
     }
+    serialNo = json['serial_no'];
+    uniqueCode = json['unique_code'];
+    customerName = json['customer_name'];
+    customerContact = json['customer_contact'];
+    bankBoneNumber = json['bank_bone_number'];
+    itemCount = json['item_count'];
+    productAmount = json['product_amount'];
+    productRate = json['product_rate'];
+    duration = json['duration'];
+    durationUnit = json['duration_unit'];
+    productStatus = json['product_status'];
+    shopId = json['shop_id'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
@@ -64,49 +101,46 @@ class GoldItemData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
-    data['post_title'] = postTitle;
-    data['userId'] = userId;
-    if (items != null) {
-      data['items'] = items!.map((v) => v.toJson()).toList();
+    data['product_name'] = productName;
+    if (productTitle != null) {
+      data['product_title'] = productTitle!.map((v) => v.toJson()).toList();
     }
+    data['serial_no'] = serialNo;
+    data['unique_code'] = uniqueCode;
+    data['customer_name'] = customerName;
+    data['customer_contact'] = customerContact;
+    data['bank_bone_number'] = bankBoneNumber;
+    data['item_count'] = itemCount;
+    data['product_amount'] = productAmount;
+    data['product_rate'] = productRate;
+    data['duration'] = duration;
+    data['duration_unit'] = durationUnit;
+    data['product_status'] = productStatus;
+    data['shop_id'] = shopId;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     return data;
   }
 }
 
-class Items {
-  String? productTitle;
-  int? productAmt;
-  int? period;
-  String? periodUnit;
-  double? rate;
+class ProductTitle {
+  String? item;
+  String? createdAt;
+  String? updatedAt;
 
-  Items(
-      {this.productTitle,
-      this.productAmt,
-      this.period,
-      this.periodUnit,
-      this.rate});
+  ProductTitle({this.item, this.createdAt, this.updatedAt});
 
-  Items.fromJson(Map<String, dynamic> json) {
-    productTitle = json['product_title'];
-    productAmt = json['product_amt'];
-    period = json['period'];
-    periodUnit = json['period_unit'];
-
-    // Handle int and double for 'rate'
-    rate =
-        (json['rate'] is int) ? (json['rate'] as int).toDouble() : json['rate'];
+  ProductTitle.fromJson(Map<String, dynamic> json) {
+    item = json['item'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['product_title'] = productTitle;
-    data['product_amt'] = productAmt;
-    data['period'] = period;
-    data['period_unit'] = periodUnit;
-    data['rate'] = rate;
+    data['item'] = item;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
     return data;
   }
 }

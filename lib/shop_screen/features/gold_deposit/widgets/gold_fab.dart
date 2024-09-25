@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/config/app_icons.dart';
 import 'package:gap/gap.dart';
 import '../../../../components/utils/toast_utils.dart';
 import '../../../../components/widget/app_bar.dart';
@@ -14,10 +15,40 @@ class GoldFAB extends StatefulWidget {
 }
 
 class _GoldFABState extends State<GoldFAB> {
+  final TextEditingController _customerName = TextEditingController();
+  final TextEditingController _billNo = TextEditingController();
+  final TextEditingController _contactNo = TextEditingController();
   final TextEditingController _postTitle = TextEditingController();
-  List<ProductFields> productList = [];
+  final TextEditingController _productAmtController = TextEditingController();
+  final TextEditingController _periodController = TextEditingController();
+  final TextEditingController _rateController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _countController = TextEditingController();
+
+  String _periodUnit = 'month';
+  String _weightUnit = 'grams';
+
+  List<ProductFields> productList = [ProductFields()];
   bool _isLoading = false;
   String? _errorMessage;
+
+  @override
+  void dispose() {
+    // Dispose of all controllers
+    _customerName.dispose();
+    _contactNo.dispose();
+    _postTitle.dispose();
+    _billNo.dispose();
+    _productAmtController.dispose();
+    _periodController.dispose();
+    _rateController.dispose();
+    _weightController.dispose();
+    _countController.dispose();
+    for (var product in productList) {
+      product.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +58,28 @@ class _GoldFABState extends State<GoldFAB> {
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            // Title for the record
+            TextFieldWidget(
+              controller: _billNo,
+              inputType: TextInputType.text,
+              hintText: "Bill Number",
+              prefixIcon: AppIcons.instance.number,
+            ),
+            const Gap(16),
+            TextFieldWidget(
+              controller: _customerName,
+              inputType: TextInputType.text,
+              hintText: "Customer Name",
+              prefixIcon: AppIcons.instance.person,
+            ),
+            const Gap(16),
+
+            TextFieldWidget(
+              controller: _contactNo,
+              inputType: TextInputType.text,
+              hintText: "Phone Number",
+              prefixIcon: AppIcons.instance.number,
+            ),
+            const Gap(16),
             TextFieldWidget(
               controller: _postTitle,
               inputType: TextInputType.text,
@@ -35,123 +87,148 @@ class _GoldFABState extends State<GoldFAB> {
               prefixIcon: Icons.abc,
             ),
             const Gap(16),
-
-            // List of product sections
             ...List.generate(productList.length, (index) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              return Row(
                 children: [
-                  // Product heading (Product 1, Product 2, etc.)
-                  Text(
-                    'Product ${index + 1}',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                  Expanded(
+                    child: TextFieldWidget(
+                      controller: productList[index].productTitleController,
+                      inputType: TextInputType.text,
+                      hintText: "Product Title",
+                      prefixIcon: Icons.abc,
+                      // Display + for the last item, and delete for others
+                      suffix: IconButton(
+                        icon: Icon(
+                          index == productList.length - 1
+                              ? Icons.add
+                              : Icons.delete,
+                          color: index == productList.length - 1
+                              ? Colors.green
+                              : Colors.red,
+                        ),
+                        onPressed: index == productList.length - 1
+                            ? () {
+                                // Add a new field when + is clicked
+                                setState(() {
+                                  productList.add(ProductFields());
+                                });
+                              }
+                            : productList.length > 1
+                                ? () {
+                                    // Remove the field if there are more than one
+                                    setState(() {
+                                      productList.removeAt(index);
+                                    });
+                                  }
+                                : null, // Disable delete if it's the only field
+                      ),
                     ),
                   ),
-                  const Gap(8),
-                  // Product title field
-                  TextFieldWidget(
-                    controller: productList[index].productTitleController,
-                    inputType: TextInputType.text,
-                    hintText: "Product Title",
-                    prefixIcon: Icons.abc,
-                  ),
-                  const Gap(16),
-
-                  // Product amount field
-                  TextFieldWidget(
-                    controller: productList[index].productAmtController,
-                    inputType: TextInputType.number,
-                    hintText: "Amount",
-                    prefixIcon: Icons.currency_rupee_sharp,
-                  ),
-                  const Gap(16),
-
-                  // Row for period and period unit
-                  Row(
-                    children: [
-                      // Period field
-                      Expanded(
-                        child: TextFieldWidget(
-                          controller: productList[index].periodController,
-                          inputType: TextInputType.number,
-                          hintText: "Period",
-                          prefixIcon: Icons.watch_later_outlined,
-                        ),
-                      ),
-                      const Gap(16),
-                      // Dropdown for period unit
-                      Expanded(
-                        child: DropdownButton<String>(
-                          isExpanded: true,
-                          value: productList[index].periodUnit,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              productList[index].periodUnit = newValue!;
-                            });
-                          },
-                          items: <String>['month', 'year']
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Gap(16),
-
-                  // Product rate field
-                  TextFieldWidget(
-                    controller: productList[index].rateController,
-                    inputType: TextInputType.number,
-                    hintText: "Rate",
-                    prefixIcon: Icons.percent,
-                  ),
-                  const Gap(16),
-
-                  // Delete button for each product
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                        setState(() {
-                          productList.removeAt(index);
-                        });
-                      },
-                    ),
-                  ),
-                  const Divider(),
                 ],
               );
             }),
 
-            // Add Another Product button
-            BtnWidget(
-              btnText: "Add Another Product",
-              onTap: () {
-                setState(() {
-                  productList.add(ProductFields());
-                });
-              },
+            const Gap(16),
+
+            Row(
+              children: [
+                Expanded(
+                  child: TextFieldWidget(
+                    controller: _weightController,
+                    inputType: TextInputType.number,
+                    hintText: "Weight",
+                    prefixIcon: Icons.scale,
+                  ),
+                ),
+                const Gap(16),
+                Expanded(
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: _weightUnit,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _weightUnit = newValue!;
+                      });
+                    },
+                    items: <String>['grams', 'tola', 'lal', 'rathi']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
             ),
             const Gap(16),
 
-            // Main submit button for the entire form
+            // Common fields for all products (outside the dynamic product section)
+            TextFieldWidget(
+              controller: _productAmtController,
+              inputType: TextInputType.number,
+              hintText: "Amount",
+              prefixIcon: Icons.currency_rupee_sharp,
+            ),
+            const Gap(16),
+
+            Row(
+              children: [
+                Expanded(
+                  child: TextFieldWidget(
+                    controller: _periodController,
+                    inputType: TextInputType.number,
+                    hintText: "Period",
+                    prefixIcon: Icons.watch_later_outlined,
+                  ),
+                ),
+                const Gap(16),
+                Expanded(
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: _periodUnit,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _periodUnit = newValue!;
+                      });
+                    },
+                    items: <String>['month', 'year']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
+            const Gap(16),
+
+            TextFieldWidget(
+              controller: _rateController,
+              inputType: TextInputType.number,
+              hintText: "Rate",
+              prefixIcon: Icons.percent,
+            ),
+            const Gap(16),
+
+            TextFieldWidget(
+              controller: _countController,
+              inputType: TextInputType.number,
+              hintText: "Count",
+              prefixIcon: Icons.format_list_numbered,
+            ),
+            const Gap(16),
+
+            // Submit Button
             BtnWidget(
               btnText: "Submit",
-              onTap: () {
-                _submitForm();
-              },
+              onTap: _submitForm,
             ),
-            if (_isLoading)
-              const Center(
-                child: CircularProgressIndicator(),
-              ),
+
+            if (_isLoading) const Center(child: CircularProgressIndicator()),
+
             if (_errorMessage != null)
               Padding(
                 padding: const EdgeInsets.only(top: 16.0),
@@ -173,28 +250,39 @@ class _GoldFABState extends State<GoldFAB> {
     });
 
     final postTitle = _postTitle.text;
-
     final items = productList.map((product) {
       return {
-        'product_title': product.productTitleController.text,
-        'product_amt':
-            double.tryParse(product.productAmtController.text) ?? 0.0,
-        'period': int.tryParse(product.periodController.text) ?? 0,
-        'period_unit': product.periodUnit, // Use the selected period unit
-        'rate': double.tryParse(product.rateController.text) ?? 0.0,
+        'item': product.productTitleController.text,
       };
     }).toList();
 
     final requestBody = {
-      'userId': 3,
-      'post_title': postTitle,
-      'items': items,
+      'product_name': postTitle,
+      'product_title': items,
+      'shop_id': 14,
+      'customer_name': _customerName.text,
+      'customer_contact': _contactNo.text,
+      'bank_bone_number': "",
+      'product_amount': double.tryParse(_productAmtController.text) ?? 0.0,
+      'product_rate': double.tryParse(_rateController.text) ?? 0.0,
+      'duration': int.tryParse(_periodController.text) ?? 0,
+      'duration_unit': _periodUnit,
+      'item_count': int.tryParse(_countController.text) ?? 0,
+      'product_status': 'running',
+      'unique_code': _billNo.text,
     };
 
-    final goldDepositService = Golddepositservice();
     try {
-      await goldDepositService.submitGoldDeposit(requestBody);
-      showToast("New Record has been added to the book");
+      final goldDepositService = Golddepositservice();
+      final response = await goldDepositService.submitGoldDeposit(requestBody);
+      if (response.statusCode == 201) {
+        showToast("New Record has been added to the book");
+      } else {
+        showToast("$_errorMessage");
+        setState(() {
+          _errorMessage = 'Error ${response.statusCode}: ${response.data}';
+        });
+      }
     } catch (e) {
       setState(() {
         _errorMessage = 'Failed to submit gold deposit: $e';
@@ -207,11 +295,11 @@ class _GoldFABState extends State<GoldFAB> {
   }
 }
 
-// A helper class to maintain product-related controllers
 class ProductFields {
   TextEditingController productTitleController = TextEditingController();
-  TextEditingController productAmtController = TextEditingController();
-  TextEditingController periodController = TextEditingController();
-  TextEditingController rateController = TextEditingController();
-  String periodUnit = 'month'; // Default value
+
+  // Dispose of the controllers when not needed
+  void dispose() {
+    productTitleController.dispose();
+  }
 }

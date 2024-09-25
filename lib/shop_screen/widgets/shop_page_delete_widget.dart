@@ -1,21 +1,43 @@
-// shop_page_delete_widget.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import '../../components/config/app_icons.dart';
 import '../../components/utils/toast_utils.dart';
 import '../services/delete_shop.dart';
 
-class ShopPageDeleteWidget extends StatelessWidget {
+class ShopPageDeleteWidget extends StatefulWidget {
   final int shopId;
-  const ShopPageDeleteWidget({super.key, required this.shopId});
 
-  Future<void> _handleDeleteShop(BuildContext context, int shopId) async {
-    bool isDeleted = await deleteShop(shopId);
+  const ShopPageDeleteWidget({
+    super.key,
+    required this.shopId,
+  });
 
-    if (isDeleted) {
-      showToast('Shop deleted successfully!');
-    } else {
-      showToast('Failed to delete shop.');
+  @override
+  _ShopPageDeleteWidgetState createState() => _ShopPageDeleteWidgetState();
+}
+
+class _ShopPageDeleteWidgetState extends State<ShopPageDeleteWidget> {
+  bool _isDeleting = false;
+
+  Future<void> _handleDeleteShop(int shopId) async {
+    setState(() {
+      _isDeleting = true;
+    });
+
+    try {
+      bool isDeleted = await deleteShop(shopId);
+      if (isDeleted) {
+        showToast('Shop deleted successfully!');
+      } else {
+        showToast('Failed to delete shop.');
+      }
+    } catch (e) {
+      showToast('Error: $e');
+    } finally {
+      setState(() {
+        _isDeleting = false;
+      });
     }
   }
 
@@ -23,7 +45,8 @@ class ShopPageDeleteWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SlidableAction(
       onPressed: (value) async {
-        // Confirm delete action
+        if (_isDeleting) return;
+
         bool? confirmDelete = await showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -49,13 +72,13 @@ class ShopPageDeleteWidget extends StatelessWidget {
         );
 
         if (confirmDelete == true) {
-          await _handleDeleteShop(context, shopId);
+          await _handleDeleteShop(widget.shopId);
         }
       },
       backgroundColor: const Color(0xFFFE4A49),
       foregroundColor: Colors.white,
-      icon: Icons.delete,
-      label: 'Delete',
+      icon: AppIcons.instance.delete,
+      label: _isDeleting ? 'Deleting...' : 'Delete',
     );
   }
 }

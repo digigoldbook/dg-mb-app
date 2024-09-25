@@ -44,7 +44,7 @@ class _AddShopPageState extends State<AddShopPage> {
       showToast('Error: $e');
     } finally {
       setState(() {
-        _isLoading = false; // Stop loading
+        _isLoading = false;
       });
     }
   }

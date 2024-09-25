@@ -15,57 +15,76 @@ class GoldItemsDisplay extends StatelessWidget {
           if (state is GoldDepostLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is GoldDepostLoaded) {
-            final goldDeposit = state.goldDeposit;
-            return ListView.builder(
-              itemCount: goldDeposit.data!.length,
-              itemBuilder: (context, index) {
-                final post = goldDeposit.data![index];
-                final createdAt = DateTime.parse(
-                    post.createdAt.toString()); // Parse createdAt string
+            if (state.goldDeposit.pagination!.totalCount == 0) {
+              return const Center(
+                child: Text("Nothing to Display"),
+              );
+            } else {
+              final goldDeposit = state.goldDeposit;
+              return ListView.builder(
+                itemCount: goldDeposit.data!.length,
+                itemBuilder: (context, index) {
+                  final post = goldDeposit.data![index];
 
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ExpansionTile(
-                    title: Text(
-                      "Post Title: ${post.postTitle}",
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 16),
+                  // Create a list of items under the product
+                  final productTitles = post.productTitle!.map((title) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Text(
+                        "- ${title.item}",
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                    );
+                  }).toList();
+
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ExpansionTile(
+                      title: Text(
+                        "Product: ${post.productName}",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      subtitle: Text(
+                        "Updated Date: ${post.updatedAt}",
+                        style: const TextStyle(
+                            fontStyle: FontStyle.italic, fontSize: 14),
+                      ),
+                      // Children are displayed when the ExpansionTile is expanded
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: productTitles, // Display product titles
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 8.0),
+                          child: Text(
+                            "Product Amount: ${post.productAmount}",
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16.0, vertical: 8.0),
+                          child: Text(
+                            "asdasd",
+                            // "Interest: ${_calculateInterest(post, DateTime.parse(post.createdAt))}",
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
+                      ],
                     ),
-                    subtitle: Text(
-                      "Updated Date: ${post.updatedAt}",
-                      style: const TextStyle(
-                          fontStyle: FontStyle.italic, fontSize: 14),
-                    ),
-                    children: [
-                      // Nested expandable list of items
-                      ...post.items!.map((item) => ExpansionTile(
-                            title: Text("Product: ${item.productTitle}"),
-                            children: [
-                              ListTile(
-                                title: Text("Amount: ${item.productAmt}"),
-                              ),
-                              ListTile(
-                                title: Text(
-                                    "Period: ${item.period} ${item.periodUnit}"),
-                              ),
-                              ListTile(
-                                title: Text("Rate: ${item.rate}%"),
-                              ),
-                              ListTile(
-                                title: Text(
-                                  "Interest: ₹${_calculateInterest(item, createdAt)}", // Display calculated interest
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16),
-                                ),
-                              ),
-                            ],
-                          )),
-                    ],
-                  ),
-                );
-              },
-            );
+                  );
+                },
+              );
+            }
           } else if (state is GoldDepostError) {
             return Center(child: Text('Error: ${state.message}'));
           } else {
@@ -78,8 +97,8 @@ class GoldItemsDisplay extends StatelessWidget {
 
   // Method to calculate interest based on product details and time since creation
   String _calculateInterest(item, DateTime createdAt) {
-    final amount = item.productAmt ?? 0.0;
-    final rate = item.rate ?? 0.0;
+    final amount = double.tryParse(item.productAmount ?? '0') ?? 0.0;
+    final rate = double.tryParse(item.productRate ?? '0') ?? 0.0;
 
     // Calculate the number of days since creation
     final daysSinceCreation = _calculateDaysSinceCreation(createdAt);

@@ -21,4 +21,5 @@ class AppIcons {
   final IconData visibilityoff = Icons.visibility_off;
   final IconData abc = Icons.abc;
   final IconData notification = Icons.notifications;
+  final IconData delete = Icons.delete;
 }

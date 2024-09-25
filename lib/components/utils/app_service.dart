@@ -90,6 +90,7 @@ class HttpService {
     Map<String, dynamic>? data,
   }) async {
     try {
+      debugPrint(path + data.toString());
       return await _dio.post(path, data: data);
     } catch (e) {
       debugPrint('POST request failed: $e');

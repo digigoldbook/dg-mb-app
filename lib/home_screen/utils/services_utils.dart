@@ -24,7 +24,7 @@ final List<Map<String, dynamic>> servicesUtils = [
     "path": "time-estimation-cal",
   },
   {
-    "title": "View Statement",
+    "title": "Statement",
     "description": "Daily Book and record view of table",
     "image": "assets/images/service/agenda.png",
     "color": const Color(0xffF0EBE3),
