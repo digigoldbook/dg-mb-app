@@ -65,7 +65,8 @@ class WelcomeBottomWidget extends StatelessWidget {
                 const Gap(16),
                 BtnWidget(
                   width: double.infinity,
-                  btnText: "Get Started",
+                  btnText:
+                      AppLocalizations.of(context)!.translate('getStarted'),
                   onTap: () => context.pushReplacementNamed("sign-in"),
                 ),
                 const Gap(16),

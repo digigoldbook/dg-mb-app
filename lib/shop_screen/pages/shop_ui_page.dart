@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/widget/txt_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
@@ -24,7 +25,7 @@ class _ShopUiPageState extends State<ShopUiPage> {
   @override
   void initState() {
     super.initState();
-    _getUserIdFromToken(); // Extract user ID from token
+    _getUserIdFromToken();
     context.read<ShopBloc>().add(GetShopList());
     _scrollController.addListener(_onScroll);
   }
@@ -34,8 +35,7 @@ class _ShopUiPageState extends State<ShopUiPage> {
     if (accessToken != null) {
       Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
       setState(() {
-        _currentUserId = int.tryParse(
-            decodedToken['userId'].toString()); // Ensure correct type
+        _currentUserId = int.tryParse(decodedToken['userId'].toString());
       });
     }
   }
@@ -94,10 +94,26 @@ class _ShopUiPageState extends State<ShopUiPage> {
                   ],
                 ),
                 child: ListTile(
+                  tileColor: Color(0xffDEE5D4),
                   onTap: () => context.pushNamed("shop-details"),
                   title: Text(shop.shopName ?? 'Unknown Shop'),
                   subtitle: Text(shop.shopAddress ?? 'No Address'),
-                  trailing: Text(shop.shopContact ?? 'No Contact'),
+                  leading: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: const BoxDecoration(
+                      color: Color(0xffFEF9D9),
+                      shape: BoxShape.circle,
+                    ),
+                    child: TxtWidget(
+                      strText: "${index + 1}",
+                      style: TxtStyle.rg,
+                    ),
+                  ),
+                  trailing: IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.call),
+                  ),
+                  // trailing: Text(shop.shopContact ?? 'No Contact'),
                 ),
               );
             },

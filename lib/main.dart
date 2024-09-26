@@ -15,11 +15,13 @@ import 'services/estimation/cubit/estimation_step_cubit.dart';
 import 'services/pages/percentage_conversion/cubit/percentage_conversion_cubit.dart';
 import 'shop_screen/domain/fetch_bloc/shop_bloc.dart';
 import 'splash/cubit/splash_cubit.dart';
+import 'welcome_screen/cubit/locale_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await Hive.initFlutter();
+  var languageBox = await Hive.openBox('languageBox');
   runApp(
     MultiBlocProvider(
       providers: [
@@ -47,6 +49,9 @@ void main() async {
         BlocProvider(
           create: (_) => EstimationStepCubit(),
         ),
+        BlocProvider(
+          create: (_) => LocaleCubit(languageBox),
+        ),
       ],
       child: const MainApp(),
     ),
@@ -58,19 +63,23 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: appRoutes,
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
-      supportedLocales: L10n.all,
-      locale: const Locale('ne', 'NP'),
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ],
+    return BlocBuilder<LocaleCubit, Locale>(
+      builder: (context, locale) {
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          routerConfig: appRoutes,
+          theme: ThemeData(
+            useMaterial3: true,
+          ),
+          supportedLocales: L10n.all,
+          locale: locale,
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+        );
+      },
     );
   }
 }

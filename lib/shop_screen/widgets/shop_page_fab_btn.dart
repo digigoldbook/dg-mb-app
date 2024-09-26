@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../components/config/app_icons.dart';
+import '../../components/config/app_localization.dart';
 import '../pages/add_shop_page.dart';
 
 class ShopPageFabBtn extends StatefulWidget {
@@ -31,7 +32,7 @@ class _ShopPageFabBtnState extends State<ShopPageFabBtn> {
         ),
       ),
       icon: Icon(AppIcons.instance.shop),
-      label: const Text("Register Shop"),
+      label: Text(AppLocalizations.of(context)!.translate("registerShop")),
     );
   }
 }

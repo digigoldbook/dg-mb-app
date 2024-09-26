@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/widget/txt_widget.dart';
 
 import '../../components/widget/app_bar.dart';
 
@@ -14,6 +15,14 @@ class ProfilePage extends StatelessWidget {
         children: [
           customAppBar(context),
           const ProfileUserInfo(),
+          SwitchListTile(
+            value: false,
+            onChanged: (bool value) {},
+            title: const TxtWidget(
+              strText: "Theme",
+              style: TxtStyle.rg,
+            ),
+          )
         ],
       ),
     );

@@ -82,7 +82,7 @@ class _SignInFormState extends State<SignInForm> with TickerProviderStateMixin {
               inputType: TextInputType.text,
               isObscureText: _isHidden,
               controller: _password,
-              hintText: AppLocalizations.of(context)!.translate("email"),
+              hintText: AppLocalizations.of(context)!.translate("password"),
               prefixIcon: Icons.password,
               suffix: IconButton(
                 onPressed: () {

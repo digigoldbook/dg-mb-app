@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/config/app_localization.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
@@ -42,20 +43,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     TxtWidget(
-                      strText: "Hi Abishek",
+                      strText:
+                          "${AppLocalizations.of(context)!.translate("hello")} Abishek",
                       style: TxtStyle.rg,
                     ),
-                    Gap(16),
+                    const Gap(16),
                     TxtWidget(
-                      strText: "Rs. 1,51,122.03",
+                      strText:
+                          "${AppLocalizations.of(context)!.translate("rs")} 1,51,122.03",
                       style: TxtStyle.xl,
                     ),
                     TxtWidget(
-                      strText: 'Gold',
+                      strText: AppLocalizations.of(context)!.translate("gold"),
                       style: TxtStyle.rg,
                     ),
                   ],

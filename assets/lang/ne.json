@@ -1,4 +1,7 @@
 {
+  "appName": "दिजि गोल्ड बूक",
+  "english": "अङ्ग्रेजी",
+  "nepali": "नेपाली",
   "welcome": "स्वागत छ",
   "hello": "नमस्ते",
   "createAnAccount": "नयाँ खता खोल्न",
@@ -16,5 +19,9 @@
   "home": "घर",
   "gallery": "तस्बिर",
   "profile": "प्रोफिले",
-  "rs": "रु"
+  "rs": "रु",
+  "registerShop": "नयाँ पसल",
+  "gold": "सून",
+  "silver": "चाँदी",
+  "diamond": "हीरा"
 }

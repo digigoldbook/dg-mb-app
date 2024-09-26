@@ -5,7 +5,7 @@ import '../../shop_screen/features/cash_deposit/model/cash_deposit_model.dart';
 
 Future<CashDepositModel> fetchCashDeposits() async {
   final response = await http.get(
-    Uri.parse('https://digigoldbook.com/api/cash-deposit'),
+    Uri.parse('http://192.168.1.48:3000/api/cash-deposit'),
   );
 
   if (response.statusCode == 200) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../components/config/app_localization.dart';
 import '../../../components/widget/txt_widget.dart';
 import '../../widgets/auth_footer.dart';
 import '../../widgets/auth_header.dart';
@@ -24,17 +25,17 @@ class _SignInPageState extends State<SignUpPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Column(
+              Column(
                 children: [
                   AuthHeader(
-                    strTitle: "Sign Up",
+                    strTitle: AppLocalizations.of(context)!.translate("signUp"),
                   ),
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(16.0),
                     child:
                         TxtWidget(strText: "Welcome Back", style: TxtStyle.mdb),
                   ),
-                  SignUpForm(),
+                  const SignUpForm(),
                 ],
               ),
               AuthFooter(

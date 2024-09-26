@@ -1,4 +1,7 @@
 {
+    "appName": "Digi Gold Book",
+    "english": "English",
+    "nepali": "Nepali",
     "hello": "Hello",
     "welcome": "Welcome to our app!",
     "createAnAccount": "Create an Account",
@@ -16,5 +19,9 @@
     "home": "Home",
     "gallery": "Gallery",
     "profile": "Profile",
-    "rs": "Rs."
+    "rs": "Rs.",
+    "registerShop": "Register Shop",
+    "gold": "Gold",
+    "silver": "Silver",
+    "diamond": "Diamond"
 }
