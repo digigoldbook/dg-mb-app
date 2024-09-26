@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'auth/reset_password/bloc/reset_password_bloc.dart';
 import 'auth/sign_in/bloc/sign_in_bloc.dart';
 import 'auth/sign_up/bloc/sign_up_bloc.dart';
+import 'components/config/app_localization.dart';
 import 'components/config/app_routes.dart';
+import 'components/config/l10n.dart';
 import 'main_screen/cubit/bottom_nav_cubit.dart';
 import 'services/estimation/cubit/estimation_step_cubit.dart';
 import 'services/pages/percentage_conversion/cubit/percentage_conversion_cubit.dart';
@@ -61,6 +64,13 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
+      supportedLocales: L10n.all,
+      locale: const Locale('ne', 'NP'),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
     );
   }
 }

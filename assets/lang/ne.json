@@ -1,0 +1,20 @@
+{
+  "welcome": "स्वागत छ",
+  "hello": "नमस्ते",
+  "createAnAccount": "नयाँ खता खोल्न",
+  "getStarted": "सुचारु गर्नुहोस्",
+  "signIn": "साइन इन",
+  "signUp": "साइन अप",
+  "email": "ईमेल",
+  "password": "पासवर्ड",
+  "forgotPassword": "पासवर्ड भुल्नुभयो",
+  "doNotHaveAccount": "खाता छैन",
+  "fullname": "पुरा नाम",
+  "contact": "सम्पर्क",
+  "contactNo": "सम्पर्क नम्बर",
+  "address": "ठेगना",
+  "home": "घर",
+  "gallery": "तस्बिर",
+  "profile": "प्रोफिले",
+  "rs": "रु"
+}

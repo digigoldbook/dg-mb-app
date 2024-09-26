@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/components/widget/txt_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../components/animation/fade_animation.dart';
+import '../../../components/config/app_localization.dart';
 import '../../../components/widget/btn_widget.dart';
 import '../../../components/widget/text_field_widget.dart';
+import '../../../components/widget/txt_widget.dart';
 import '../bloc/sign_in_bloc.dart';
 
 class SignInForm extends StatefulWidget {
@@ -70,7 +71,7 @@ class _SignInFormState extends State<SignInForm> with TickerProviderStateMixin {
             child: TextFieldWidget(
               inputType: TextInputType.emailAddress,
               controller: _email,
-              hintText: 'Email',
+              hintText: AppLocalizations.of(context)!.translate("email"),
               prefixIcon: Icons.mail,
             ),
           ),
@@ -81,7 +82,7 @@ class _SignInFormState extends State<SignInForm> with TickerProviderStateMixin {
               inputType: TextInputType.text,
               isObscureText: _isHidden,
               controller: _password,
-              hintText: 'Password',
+              hintText: AppLocalizations.of(context)!.translate("email"),
               prefixIcon: Icons.password,
               suffix: IconButton(
                 onPressed: () {
@@ -97,8 +98,9 @@ class _SignInFormState extends State<SignInForm> with TickerProviderStateMixin {
           ),
           TextButton(
             onPressed: () => context.pushNamed("reset-password"),
-            child: const TxtWidget(
-              strText: "Forgot Password",
+            child: TxtWidget(
+              strText:
+                  AppLocalizations.of(context)!.translate("forgotPassword"),
               style: TxtStyle.rg,
             ),
           ),
@@ -106,7 +108,7 @@ class _SignInFormState extends State<SignInForm> with TickerProviderStateMixin {
           FadeTransition(
             opacity: _buttonFadeAnimation.animation,
             child: BtnWidget(
-              btnText: "Sign in",
+              btnText: AppLocalizations.of(context)!.translate("signIn"),
               onTap: () {
                 context.read<SignInBloc>().add(
                       SignInSubmitForm(

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/components/utils/toast_utils.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../components/animation/fade_animation.dart';
+import '../../../components/config/app_localization.dart';
+import '../../../components/utils/toast_utils.dart';
 import '../../../components/widget/btn_widget.dart';
 import '../../../components/widget/text_field_widget.dart';
 import '../bloc/sign_up_bloc.dart';
@@ -99,7 +100,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
               child: TextFieldWidget(
                 inputType: TextInputType.name,
                 controller: _fullName,
-                hintText: 'Full Name',
+                hintText: AppLocalizations.of(context)!.translate("fullname"),
                 prefixIcon: Icons.person,
               ),
             ),
@@ -109,7 +110,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
               child: TextFieldWidget(
                 inputType: TextInputType.emailAddress,
                 controller: _email,
-                hintText: 'Email',
+                hintText: AppLocalizations.of(context)!.translate("email"),
                 prefixIcon: Icons.mail,
               ),
             ),
@@ -119,7 +120,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
               child: TextFieldWidget(
                 inputType: TextInputType.phone,
                 controller: _phoneNo,
-                hintText: 'Phone Number',
+                hintText: AppLocalizations.of(context)!.translate("contactNo"),
                 prefixIcon: Icons.phone,
               ),
             ),
@@ -130,7 +131,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
                 inputType: TextInputType.text,
                 isObscureText: _isHidden,
                 controller: _password,
-                hintText: 'Password',
+                hintText: AppLocalizations.of(context)!.translate("password"),
                 prefixIcon: Icons.lock,
                 suffix: IconButton(
                   onPressed: () {
@@ -148,7 +149,7 @@ class _SignUpFormState extends State<SignUpForm> with TickerProviderStateMixin {
             FadeTransition(
               opacity: _buttonFadeAnimation.animation,
               child: BtnWidget(
-                btnText: "Sign Up",
+                btnText: AppLocalizations.of(context)!.translate("signUp"),
                 onTap: () {
                   context.read<SignUpBloc>().add(
                         SignUpSubmittedEvent(

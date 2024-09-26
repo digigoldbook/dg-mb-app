@@ -1,0 +1,20 @@
+{
+    "hello": "Hello",
+    "welcome": "Welcome to our app!",
+    "createAnAccount": "Create an Account",
+    "getStarted": "Get Started",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "forgotPassword": "Forgot Password",
+    "doNotHaveAccount": "Don't Have an Account",
+    "fullname": "Fullname",
+    "contact": "Contact",
+    "contactNo": "Contact No.",
+    "address": "Address",
+    "home": "Home",
+    "gallery": "Gallery",
+    "profile": "Profile",
+    "rs": "Rs."
+}

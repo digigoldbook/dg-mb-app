@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/widget/txt_widget.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../components/config/app_localization.dart';
 import '../../components/widget/btn_widget.dart';
 
 class WelcomeBottomWidget extends StatelessWidget {
@@ -48,12 +50,9 @@ class WelcomeBottomWidget extends StatelessWidget {
                   ),
                 ),
                 const Gap(16),
-                const Text(
-                  "Welcome to Daily Log",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                TxtWidget(
+                  strText: AppLocalizations.of(context)!.translate('welcome'),
+                  style: TxtStyle.mdb,
                 ),
                 const Text(
                   "Welcome to Daily Log from the team of application. We would like to share our experience with you guys. This is one of the most feasible outcomes.",
@@ -72,7 +71,8 @@ class WelcomeBottomWidget extends StatelessWidget {
                 const Gap(16),
                 BtnWidget(
                   width: double.infinity,
-                  btnText: "Create Account",
+                  btnText: AppLocalizations.of(context)!
+                      .translate('createAnAccount'),
                   onTap: () => context.pushReplacementNamed("sign-up"),
                   isSolid: false,
                 ),

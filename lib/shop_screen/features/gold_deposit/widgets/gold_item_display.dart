@@ -70,13 +70,13 @@ class GoldItemsDisplay extends StatelessWidget {
                             style: const TextStyle(fontSize: 14),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
+                        const Padding(
+                          padding: EdgeInsets.symmetric(
                               horizontal: 16.0, vertical: 8.0),
                           child: Text(
                             "asdasd",
                             // "Interest: ${_calculateInterest(post, DateTime.parse(post.createdAt))}",
-                            style: const TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: 14),
                           ),
                         ),
                       ],

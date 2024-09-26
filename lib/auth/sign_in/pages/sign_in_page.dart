@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../components/config/app_localization.dart';
 import '../../../components/utils/toast_utils.dart';
 import '../../../components/widget/txt_widget.dart';
 import '../../widgets/auth_footer.dart';
@@ -43,13 +44,15 @@ class _SignInPageState extends State<SignInPage> {
                 children: [
                   Column(
                     children: [
-                      const AuthHeader(
-                        strTitle: "Sign In",
+                      AuthHeader(
+                        strTitle:
+                            AppLocalizations.of(context)!.translate("signIn"),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.all(16.0),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
                         child: TxtWidget(
-                          strText: "Welcome Back",
+                          strText: AppLocalizations.of(context)!
+                              .translate("welcome"),
                           style: TxtStyle.mdb,
                         ),
                       ),
@@ -67,8 +70,10 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   // Uncomment and implement AuthFooter if needed
                   AuthFooter(
-                    leadingTxt: "Don't have an account?",
-                    trailingTxt: " Create Account",
+                    leadingTxt: AppLocalizations.of(context)!
+                        .translate("doNotHaveAccount"),
+                    trailingTxt: AppLocalizations.of(context)!
+                        .translate("createAnAccount"),
                     path: () => context.pushNamed("sign-up"),
                   ),
                 ],
