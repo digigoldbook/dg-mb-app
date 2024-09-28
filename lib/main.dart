@@ -10,6 +10,7 @@ import 'auth/sign_up/bloc/sign_up_bloc.dart';
 import 'components/config/app_localization.dart';
 import 'components/config/app_routes.dart';
 import 'components/config/l10n.dart';
+import 'gallery_screen/bloc/gallery_bloc.dart';
 import 'main_screen/cubit/bottom_nav_cubit.dart';
 import 'services/estimation/cubit/estimation_step_cubit.dart';
 import 'services/pages/percentage_conversion/cubit/percentage_conversion_cubit.dart';
@@ -52,6 +53,9 @@ void main() async {
         BlocProvider(
           create: (_) => LocaleCubit(languageBox),
         ),
+        BlocProvider(
+          create: (_) => GalleryBloc(),
+        ),
       ],
       child: const MainApp(),
     ),
@@ -77,6 +81,7 @@ class MainApp extends StatelessWidget {
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
           ],
         );
       },

@@ -1,0 +1,43 @@
+{
+    "gold":{
+        "items": [
+            {
+                "chains": "Chains",
+                "ranihar": "Ranihar",
+                "ear-rings": "Ear Rings",
+                "jhumka": "Jhumka",
+                "chain-lockets": "Chain's Lockets",
+                "chandrama-clips": "Chandrama Clips",
+                "sirfula": "Sirfula",
+                "sirbandi": "Sirbandi",
+                "nose-pins": "Nose Pins",
+                "bracelets": "Bracelets",
+                "finger-ring": "Finger Ring"
+            }
+        ]
+    },
+    "diamond":{
+        "items": [
+            {
+                "jhumka": "Jhumka",
+                "necklaces": "Necklaces",
+                "lockets": "Lockets",
+                "nose-pins": "Nose Pins",
+                "bracelets": "Bracelets",
+                "finger-ring": "Finger Ring"
+            }
+        ]
+    },
+    "silver":{
+        "items": [
+            {
+                "tikadani": "Tikadani",
+                "karuwa": "Karuwa",
+                "bracekets": "Bracekets",
+                "kharkulo": "Kharkulo",
+                "chains": "Chains",
+                "others": "Others"
+            }
+        ]
+    }
+}
