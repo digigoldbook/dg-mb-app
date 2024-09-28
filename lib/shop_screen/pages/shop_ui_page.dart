@@ -94,7 +94,7 @@ class _ShopUiPageState extends State<ShopUiPage> {
                   ],
                 ),
                 child: ListTile(
-                  tileColor: Color(0xffDEE5D4),
+                  tileColor: const Color(0xffDEE5D4),
                   onTap: () => context.pushNamed("shop-details"),
                   title: Text(shop.shopName ?? 'Unknown Shop'),
                   subtitle: Text(shop.shopAddress ?? 'No Address'),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
 import '../../components/config/app_icons.dart';
+import '../../components/config/app_localization.dart';
 import '../../components/utils/toast_utils.dart';
 import '../../components/widget/btn_widget.dart';
 import '../../components/widget/text_field_widget.dart';
@@ -55,35 +56,38 @@ class _AddShopPageState extends State<AddShopPage> {
       padding: const EdgeInsets.all(16.0),
       child: Column(
         children: [
-          const Center(
-            child: TxtWidget(strText: "New Shop", style: TxtStyle.mdb),
+          Center(
+            child: TxtWidget(
+                strText:
+                    AppLocalizations.of(context)!.translate("registerShop"),
+                style: TxtStyle.mdb),
           ),
           const Gap(8 * 4),
           TextFieldWidget(
             controller: _shopName,
             inputType: TextInputType.text,
-            hintText: 'Shop Name',
+            hintText: AppLocalizations.of(context)!.translate("shopName"),
             prefixIcon: AppIcons.instance.shop,
           ),
           const Gap(16),
           TextFieldWidget(
             controller: _shopAddress,
             inputType: TextInputType.text,
-            hintText: 'Shop Address',
+            hintText: AppLocalizations.of(context)!.translate("address"),
             prefixIcon: AppIcons.instance.navigation,
           ),
           const Gap(16),
           TextFieldWidget(
             controller: _shopRegNo,
             inputType: TextInputType.text,
-            hintText: 'Registration No.',
+            hintText: AppLocalizations.of(context)!.translate("registrationNo"),
             prefixIcon: AppIcons.instance.number,
           ),
           const Gap(16),
           TextFieldWidget(
             controller: _shopContact,
             inputType: TextInputType.number,
-            hintText: 'Contact No.',
+            hintText: AppLocalizations.of(context)!.translate("contactNo"),
             prefixIcon: AppIcons.instance.phone,
           ),
           const Gap(8 * 4),

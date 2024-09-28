@@ -14,10 +14,10 @@ class ShopPageDeleteWidget extends StatefulWidget {
   });
 
   @override
-  _ShopPageDeleteWidgetState createState() => _ShopPageDeleteWidgetState();
+  ShopPageDeleteWidgetState createState() => ShopPageDeleteWidgetState();
 }
 
-class _ShopPageDeleteWidgetState extends State<ShopPageDeleteWidget> {
+class ShopPageDeleteWidgetState extends State<ShopPageDeleteWidget> {
   bool _isDeleting = false;
 
   Future<void> _handleDeleteShop(int shopId) async {

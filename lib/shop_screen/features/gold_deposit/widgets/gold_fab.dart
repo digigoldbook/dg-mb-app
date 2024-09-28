@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/components/config/app_icons.dart';
 import 'package:gap/gap.dart';
+import '../../../../components/config/app_icons.dart';
+import '../../../../components/config/app_localization.dart';
 import '../../../../components/utils/toast_utils.dart';
 import '../../../../components/widget/app_bar.dart';
 import '../../../../components/widget/btn_widget.dart';
@@ -61,14 +62,14 @@ class _GoldFABState extends State<GoldFAB> {
             TextFieldWidget(
               controller: _billNo,
               inputType: TextInputType.text,
-              hintText: "Bill Number",
+              hintText: AppLocalizations.of(context)!.translate("billNo"),
               prefixIcon: AppIcons.instance.number,
             ),
             const Gap(16),
             TextFieldWidget(
               controller: _customerName,
               inputType: TextInputType.text,
-              hintText: "Customer Name",
+              hintText: AppLocalizations.of(context)!.translate("customerName"),
               prefixIcon: AppIcons.instance.person,
             ),
             const Gap(16),
@@ -76,14 +77,14 @@ class _GoldFABState extends State<GoldFAB> {
             TextFieldWidget(
               controller: _contactNo,
               inputType: TextInputType.text,
-              hintText: "Phone Number",
+              hintText: AppLocalizations.of(context)!.translate("contactNo"),
               prefixIcon: AppIcons.instance.number,
             ),
             const Gap(16),
             TextFieldWidget(
               controller: _postTitle,
               inputType: TextInputType.text,
-              hintText: "Record Title",
+              hintText: AppLocalizations.of(context)!.translate("recordTitle"),
               prefixIcon: Icons.abc,
             ),
             const Gap(16),
@@ -94,7 +95,8 @@ class _GoldFABState extends State<GoldFAB> {
                     child: TextFieldWidget(
                       controller: productList[index].productTitleController,
                       inputType: TextInputType.text,
-                      hintText: "Product Title",
+                      hintText: AppLocalizations.of(context)!
+                          .translate("productTitle"),
                       prefixIcon: Icons.abc,
                       // Display + for the last item, and delete for others
                       suffix: IconButton(
@@ -136,7 +138,7 @@ class _GoldFABState extends State<GoldFAB> {
                   child: TextFieldWidget(
                     controller: _weightController,
                     inputType: TextInputType.number,
-                    hintText: "Weight",
+                    hintText: AppLocalizations.of(context)!.translate("weight"),
                     prefixIcon: Icons.scale,
                   ),
                 ),
@@ -167,7 +169,7 @@ class _GoldFABState extends State<GoldFAB> {
             TextFieldWidget(
               controller: _productAmtController,
               inputType: TextInputType.number,
-              hintText: "Amount",
+              hintText: AppLocalizations.of(context)!.translate("amount"),
               prefixIcon: Icons.currency_rupee_sharp,
             ),
             const Gap(16),
@@ -178,7 +180,7 @@ class _GoldFABState extends State<GoldFAB> {
                   child: TextFieldWidget(
                     controller: _periodController,
                     inputType: TextInputType.number,
-                    hintText: "Period",
+                    hintText: AppLocalizations.of(context)!.translate("period"),
                     prefixIcon: Icons.watch_later_outlined,
                   ),
                 ),
@@ -208,7 +210,7 @@ class _GoldFABState extends State<GoldFAB> {
             TextFieldWidget(
               controller: _rateController,
               inputType: TextInputType.number,
-              hintText: "Rate",
+              hintText: AppLocalizations.of(context)!.translate("rate"),
               prefixIcon: Icons.percent,
             ),
             const Gap(16),
@@ -216,7 +218,7 @@ class _GoldFABState extends State<GoldFAB> {
             TextFieldWidget(
               controller: _countController,
               inputType: TextInputType.number,
-              hintText: "Count",
+              hintText: AppLocalizations.of(context)!.translate("total"),
               prefixIcon: Icons.format_list_numbered,
             ),
             const Gap(16),

@@ -9,10 +9,10 @@ class UnitConverter extends StatefulWidget {
   const UnitConverter({super.key});
 
   @override
-  _UnitConverterState createState() => _UnitConverterState();
+  UnitConverterState createState() => UnitConverterState();
 }
 
-class _UnitConverterState extends State<UnitConverter> {
+class UnitConverterState extends State<UnitConverter> {
   final List<String> units = unitToGrams.keys.toList();
   String fromUnit = 'gm';
   double inputValue = 0.0;

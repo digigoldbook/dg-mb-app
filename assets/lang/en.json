@@ -21,7 +21,18 @@
     "profile": "Profile",
     "rs": "Rs.",
     "registerShop": "Register Shop",
+    "registrationNo": "Register Shop",
     "gold": "Gold",
     "silver": "Silver",
-    "diamond": "Diamond"
+    "diamond": "Diamond",
+    "shopName": "Shop Name",
+    "billNo": "Bill No.",
+    "customerName": "Customer Name",
+    "recordTitle": "Record Title",
+    "productTitle": "Product Title",
+    "weight": "Weight",
+    "amount": "Amount",
+    "period": "Period",
+    "rate": "Rate",
+    "total": "Total"
 }

@@ -7,10 +7,10 @@ class ViewStatement extends StatefulWidget {
   const ViewStatement({super.key});
 
   @override
-  _ViewStatementState createState() => _ViewStatementState();
+  ViewStatementState createState() => ViewStatementState();
 }
 
-class _ViewStatementState extends State<ViewStatement> {
+class ViewStatementState extends State<ViewStatement> {
   late Future<CashDepositModel> futureCashDeposits;
 
   @override

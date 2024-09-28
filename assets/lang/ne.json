@@ -21,7 +21,17 @@
   "profile": "प्रोफिले",
   "rs": "रु",
   "registerShop": "नयाँ पसल",
+  "registrationNo": "पसल दर्ता नं",
   "gold": "सून",
   "silver": "चाँदी",
-  "diamond": "हीरा"
+  "diamond": "हीरा",
+  "billNo": "बिल नं",
+  "customerName": "ग्राहकको नाम",
+  "recordTitle": "रेकर्ड शीर्षक",
+  "productTitle": "सामानको नाम",
+  "weight": "तौल",
+  "amount": "रकम",
+  "period": "समय",
+  "rate": "दर",
+  "total": "जम्मा"
 }
