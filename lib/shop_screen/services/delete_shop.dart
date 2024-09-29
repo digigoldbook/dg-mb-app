@@ -1,16 +1,16 @@
-import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_application_1/components/utils/app_service.dart';
 
-final Dio _dio = Dio();
-String url = dotenv.env['URL'] ?? '';
-
+HttpService _httpService = HttpService();
 Future<bool> deleteShop(int shopId) async {
   try {
-    url = '$url/shops?shopId=$shopId';
-
-    final response = await _dio.delete(url);
-
-    return response.statusCode == 200;
+    final response = await _httpService.delete("/shops", params: {
+      "shopId": shopId,
+    });
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
   } catch (e) {
     return false;
   }

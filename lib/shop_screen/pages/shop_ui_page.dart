@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/components/widget/txt_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:jwt_decoder/jwt_decoder.dart'; // For decoding JWT token
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
+import '../../components/widget/txt_widget.dart';
 import '../domain/fetch_bloc/shop_bloc.dart';
 import '../model/shop_model.dart';
 import '../../auth/sign_in/hive/token_storage.dart';
@@ -77,46 +78,51 @@ class _ShopUiPageState extends State<ShopUiPage> {
             return const Center(child: Text("No shops found for this user."));
           }
 
-          return ListView.separated(
-            padding: const EdgeInsets.all(16),
-            separatorBuilder: (context, index) => const Divider(),
-            controller: _scrollController,
-            itemCount: shops.length,
-            itemBuilder: (context, index) {
-              final ShopData shop = shops[index];
-              return Slidable(
-                key: ValueKey(shop.id),
-                startActionPane: ActionPane(
-                  motion: const StretchMotion(),
-                  children: [
-                    ShopPageUpdateWidget(shopId: shop.id!),
-                    ShopPageDeleteWidget(shopId: shop.id!),
-                  ],
-                ),
-                child: ListTile(
-                  tileColor: const Color(0xffDEE5D4),
-                  onTap: () => context.pushNamed("shop-details"),
-                  title: Text(shop.shopName ?? 'Unknown Shop'),
-                  subtitle: Text(shop.shopAddress ?? 'No Address'),
-                  leading: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: const BoxDecoration(
-                      color: Color(0xffFEF9D9),
-                      shape: BoxShape.circle,
-                    ),
-                    child: TxtWidget(
-                      strText: "${index + 1}",
-                      style: TxtStyle.rg,
-                    ),
-                  ),
-                  trailing: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.call),
-                  ),
-                  // trailing: Text(shop.shopContact ?? 'No Contact'),
-                ),
-              );
+          return LiquidPullToRefresh(
+            onRefresh: () async {
+              context.read<ShopBloc>().add(GetShopList());
             },
+            child: ListView.separated(
+              padding: const EdgeInsets.all(16),
+              separatorBuilder: (context, index) => const Divider(),
+              controller: _scrollController,
+              itemCount: shops.length,
+              itemBuilder: (context, index) {
+                final ShopData shop = shops[index];
+                return Slidable(
+                  key: ValueKey(shop.id),
+                  startActionPane: ActionPane(
+                    motion: const StretchMotion(),
+                    children: [
+                      ShopPageUpdateWidget(shopId: shop.id!),
+                      ShopPageDeleteWidget(shopId: shop.id!),
+                    ],
+                  ),
+                  child: ListTile(
+                    tileColor: const Color(0xffDEE5D4),
+                    onTap: () => context.pushNamed("shop-details"),
+                    title: Text(shop.shopName ?? 'Unknown Shop'),
+                    subtitle: Text(shop.shopAddress ?? 'No Address'),
+                    leading: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: const BoxDecoration(
+                        color: Color(0xffFEF9D9),
+                        shape: BoxShape.circle,
+                      ),
+                      child: TxtWidget(
+                        strText: "${index + 1}",
+                        style: TxtStyle.rg,
+                      ),
+                    ),
+                    trailing: IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.call),
+                    ),
+                    // trailing: Text(shop.shopContact ?? 'No Contact'),
+                  ),
+                );
+              },
+            ),
           );
         }
         return const SizedBox.shrink();

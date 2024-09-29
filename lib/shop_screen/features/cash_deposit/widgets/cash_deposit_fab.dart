@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/config/app_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import '../bloc/cash_deposit_bloc.dart';
@@ -47,35 +48,36 @@ class _CashDepositFabState extends State<CashDepositFab> {
               TextFieldWidget(
                 controller: _amount,
                 inputType: TextInputType.number,
-                hintText: "Enter amount",
+                hintText: AppLocalizations.of(context)!.translate("amount"),
                 prefixIcon: Icons.numbers,
               ),
               const Gap(16),
               TextFieldWidget(
                 controller: _rate,
                 inputType: TextInputType.number,
-                hintText: "Enter rate",
+                hintText: AppLocalizations.of(context)!.translate("rate"),
                 prefixIcon: Icons.percent,
               ),
               const Gap(16),
               TextFieldWidget(
                 controller: _time,
                 inputType: TextInputType.number,
-                hintText: "Enter time (in months)",
+                hintText: AppLocalizations.of(context)!.translate("period"),
                 prefixIcon: Icons.watch,
               ),
               const Gap(16),
               TextFieldWidget(
                 controller: _customerName,
                 inputType: TextInputType.text,
-                hintText: "Customer Name",
+                hintText:
+                    AppLocalizations.of(context)!.translate("customerName"),
                 prefixIcon: Icons.person,
               ),
               const Gap(16),
               TextFieldWidget(
                 controller: _customerContact,
                 inputType: TextInputType.text,
-                hintText: "Customer Contact",
+                hintText: AppLocalizations.of(context)!.translate("contactNo"),
                 prefixIcon: Icons.phone,
               ),
               const Gap(32),

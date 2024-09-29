@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
 import '../../auth/sign_in/hive/token_storage.dart';
+import '../../components/utils/app_service.dart';
 
-final Dio _dio = Dio();
-final String url = dotenv.env['URL'] ?? '';
+final HttpService _httpService = HttpService();
 Future<bool> addNewShopService({
   required String shopName,
   required String shopAddress,
@@ -13,11 +12,9 @@ Future<bool> addNewShopService({
   required String shopContact,
 }) async {
   try {
-    // Get access token
     String? accessToken = await TokenStorage.getAccessToken();
 
     if (accessToken != null) {
-      // Decode the access token to get the user ID
       Map<String, dynamic> decodedToken = JwtDecoder.decode(accessToken);
       int userId = decodedToken['userId'];
 
@@ -35,13 +32,9 @@ Future<bool> addNewShopService({
         ]
       };
 
-      // Send the request to create a new shop
-      final response = await _dio.post(
-        '$url/shops',
+      final Response response = await _httpService.post(
+        "/shops",
         data: shopData,
-        options: Options(
-          headers: {'Authorization': 'Bearer $accessToken'},
-        ),
       );
 
       if (response.statusCode == 201) {

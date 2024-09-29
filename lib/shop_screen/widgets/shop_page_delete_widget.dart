@@ -21,6 +21,8 @@ class ShopPageDeleteWidgetState extends State<ShopPageDeleteWidget> {
   bool _isDeleting = false;
 
   Future<void> _handleDeleteShop(int shopId) async {
+    if (!mounted) return; // Prevent further actions if widget is not mounted
+
     setState(() {
       _isDeleting = true;
     });
@@ -35,14 +37,18 @@ class ShopPageDeleteWidgetState extends State<ShopPageDeleteWidget> {
     } catch (e) {
       showToast('Error: $e');
     } finally {
-      setState(() {
-        _isDeleting = false;
-      });
+      // Ensure widget is still mounted before calling setState
+      if (mounted) {
+        setState(() {
+          _isDeleting = false;
+        });
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(widget.shopId.toString());
     return SlidableAction(
       onPressed: (value) async {
         if (_isDeleting) return;
@@ -72,7 +78,7 @@ class ShopPageDeleteWidgetState extends State<ShopPageDeleteWidget> {
         );
 
         if (confirmDelete == true) {
-          await _handleDeleteShop(widget.shopId);
+          _handleDeleteShop(widget.shopId);
         }
       },
       backgroundColor: const Color(0xFFFE4A49),

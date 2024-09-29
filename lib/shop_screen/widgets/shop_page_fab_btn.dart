@@ -17,12 +17,12 @@ class _ShopPageFabBtnState extends State<ShopPageFabBtn> {
     return FloatingActionButton.extended(
       onPressed: () => showModalBottomSheet(
         context: context,
-        isScrollControlled: true, // Allows better control over the sheet size
+        isScrollControlled: true,
         builder: (context) => DraggableScrollableSheet(
-          initialChildSize: 0.55, // Initial height 40%
-          minChildSize: 0.4, // Minimum height 40%
-          maxChildSize: 0.7, // Max height 60% (to avoid full screen)
-          expand: false, // Allow it to be draggable without full expansion
+          initialChildSize: 0.55,
+          minChildSize: 0.4,
+          maxChildSize: 0.7,
+          expand: false,
           builder: (BuildContext context, ScrollController scrollController) {
             return SingleChildScrollView(
               controller: scrollController,
