@@ -31,10 +31,12 @@ class HttpService {
         return handler.next(response);
       },
       onError: (DioException e, handler) async {
-        if (e.response?.statusCode == 401) {
+        // Check if the error is 401 Unauthorized
+        if (e.response?.statusCode == 403) {
           final refreshToken = await TokenStorage.getRefreshToken();
           if (refreshToken != null) {
             try {
+              // Attempt to refresh the token
               final refreshResponse = await _dio.post(
                 '/auth/verify-token',
                 data: {
@@ -43,27 +45,39 @@ class HttpService {
               );
 
               if (refreshResponse.statusCode == 200) {
+                // If refresh is successful, save the new access token
                 final newAccessToken = refreshResponse.data['accessToken'];
-                final newRefreshToken = refreshResponse.data['refreshToken'];
+                await TokenStorage.saveTokens(newAccessToken, refreshToken);
 
-                await TokenStorage.saveTokens(newAccessToken, newRefreshToken);
-
+                // Retry the original request with the new access token
                 final options = e.response?.requestOptions;
-                options?.headers['Authorization'] = 'Bearer $newAccessToken';
+                if (options != null) {
+                  options.headers['Authorization'] = 'Bearer $newAccessToken';
 
-                final retryOptions = Options(
-                  method: options?.method,
-                  headers: options?.headers,
-                );
+                  // Create a new request with the updated headers and original options
+                  final retryResponse = await _dio.request(
+                    options.path,
+                    options: Options(
+                      method: options.method,
+                      headers: options.headers,
+                      responseType: options.responseType,
+                      contentType: options.contentType,
+                      followRedirects: options.followRedirects,
+                      validateStatus: options.validateStatus,
+                      receiveDataWhenStatusError:
+                          options.receiveDataWhenStatusError,
+                    ),
+                    data: options.data,
+                    queryParameters: options.queryParameters,
+                  );
 
-                final retryResponse = await _dio.request(
-                  options!.path,
-                  options: retryOptions,
-                );
-                return handler.resolve(retryResponse);
+                  // Resolve the handler with the retry response
+                  return handler.resolve(retryResponse);
+                }
               }
             } catch (refreshError) {
               debugPrint('Token refresh failed: $refreshError');
+              return handler.reject(e);
             }
           }
         }

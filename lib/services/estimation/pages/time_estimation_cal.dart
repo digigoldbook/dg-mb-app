@@ -1,6 +1,7 @@
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gap/gap.dart';
 
 import '../cubit/estimation_step_cubit.dart';
 import '../widgets/deposit_time_estimation.dart';
@@ -48,7 +49,7 @@ class TimeEstimationCal extends StatelessWidget {
                       ),
                       title: title,
                     );
-                  }).toList(), // Dynamically generate steps using map
+                  }).toList(),
                   onStepReached: (index) {
                     // Update the step using the Cubit
                     context.read<EstimationStepCubit>().updateStep(index);
@@ -56,7 +57,7 @@ class TimeEstimationCal extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 16),
+            const Gap(16),
             // Display widgets based on the active step
             BlocBuilder<EstimationStepCubit, EstimationStepState>(
               builder: (context, state) {

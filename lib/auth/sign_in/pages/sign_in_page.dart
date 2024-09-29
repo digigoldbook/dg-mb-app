@@ -31,54 +31,60 @@ class _SignInPageState extends State<SignInPage> {
             if (state is SignInSuccess) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 context.pushReplacementNamed("main");
-                showToast("Successfully Loggedin");
+                showToast("Successfully Logged in");
               });
             }
           },
-          child: SingleChildScrollView(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: BlocBuilder<SignInBloc, SignInState>(
+            builder: (context, state) {
+              return Stack(
                 children: [
-                  Column(
-                    children: [
-                      AuthHeader(
-                        strTitle:
-                            AppLocalizations.of(context)!.translate("signIn"),
+                  SingleChildScrollView(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              AuthHeader(
+                                strTitle: AppLocalizations.of(context)!
+                                    .translate("signIn"),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: TxtWidget(
+                                  strText: AppLocalizations.of(context)!
+                                      .translate("welcome"),
+                                  style: TxtStyle.mdb,
+                                ),
+                              ),
+                              const SignInForm(),
+                            ],
+                          ),
+                          AuthFooter(
+                            leadingTxt: AppLocalizations.of(context)!
+                                .translate("doNotHaveAccount"),
+                            trailingTxt: AppLocalizations.of(context)!
+                                .translate("createAnAccount"),
+                            path: () => context.pushNamed("sign-up"),
+                          ),
+                        ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: TxtWidget(
-                          strText: AppLocalizations.of(context)!
-                              .translate("welcome"),
-                          style: TxtStyle.mdb,
-                        ),
-                      ),
-                      BlocBuilder<SignInBloc, SignInState>(
-                        builder: (context, state) {
-                          if (state is SignInLoading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                          return const SignInForm();
-                        },
-                      ),
-                    ],
+                    ),
                   ),
-                  // Uncomment and implement AuthFooter if needed
-                  AuthFooter(
-                    leadingTxt: AppLocalizations.of(context)!
-                        .translate("doNotHaveAccount"),
-                    trailingTxt: AppLocalizations.of(context)!
-                        .translate("createAnAccount"),
-                    path: () => context.pushNamed("sign-up"),
-                  ),
+                  if (state is SignInLoading)
+                    Container(
+                      color: Colors.black
+                          .withOpacity(0.5), // Semi-transparent overlay
+                      child: const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    ),
                 ],
-              ),
-            ),
+              );
+            },
           ),
         ),
       ),

@@ -82,7 +82,7 @@ class _DepositePriceEstimationState extends State<DepositePriceEstimation> {
         TextFieldWidget(
           controller: _insuranceRate,
           inputType: TextInputType.number,
-          hintText: "5%",
+          hintText: "Insurance Rate",
           prefixIcon: Icons.percent,
         ),
         const Gap(8 * 4),

@@ -96,7 +96,7 @@ class GoldItemsDisplay extends StatelessWidget {
   }
 
   // Method to calculate interest based on product details and time since creation
-  String _calculateInterest(item, DateTime createdAt) {
+  String calculateInterest(item, DateTime createdAt) {
     final amount = double.tryParse(item.productAmount ?? '0') ?? 0.0;
     final rate = double.tryParse(item.productRate ?? '0') ?? 0.0;
 

@@ -35,5 +35,9 @@
     "amount": "Amount",
     "period": "Period",
     "rate": "Rate",
-    "total": "Total"
+    "total": "Total",
+    "gm": "gm",
+    "lal": "lal",
+    "pound": "Pound",
+    "ounce": "Ounce"
 }
