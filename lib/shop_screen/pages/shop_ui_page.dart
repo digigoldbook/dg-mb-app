@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:jwt_decoder/jwt_decoder.dart'; // For decoding JWT token
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
@@ -20,15 +21,12 @@ class ShopUiPage extends StatefulWidget {
 }
 
 class _ShopUiPageState extends State<ShopUiPage> {
-  final ScrollController _scrollController = ScrollController();
   int? _currentUserId;
 
   @override
   void initState() {
     super.initState();
     _getUserIdFromToken();
-    context.read<ShopBloc>().add(GetShopList());
-    _scrollController.addListener(_onScroll);
   }
 
   Future<void> _getUserIdFromToken() async {
@@ -42,34 +40,17 @@ class _ShopUiPageState extends State<ShopUiPage> {
   }
 
   @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _onScroll() {
-    if (_isBottom) {
-      context.read<ShopBloc>().add(GetShopList());
-    }
-  }
-
-  bool get _isBottom {
-    if (!_scrollController.hasClients) return false;
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-    return currentScroll >= maxScroll * 0.9;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocBuilder<ShopBloc, ShopState>(
       builder: (context, state) {
+        if (state is ShopInitial) {
+          context.read<ShopBloc>().add(GetShopList());
+        }
         if (state is ShopLoading && state is! ShopSuccess) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is ShopError) {
           return Center(child: Text(state.strError));
         } else if (state is ShopSuccess && _currentUserId != null) {
-          // Filter shops based on user ownership
           final shops = state.shopModel.shopData!
               .where((shop) => _isShopOwnedByUser(shop, _currentUserId!))
               .toList();
@@ -79,13 +60,14 @@ class _ShopUiPageState extends State<ShopUiPage> {
           }
 
           return LiquidPullToRefresh(
+            key: const Key('pull_to_refresh'),
             onRefresh: () async {
-              context.read<ShopBloc>().add(GetShopList());
+              context.read<ShopBloc>().add(GetShopList()); // Fetch data
             },
+            showChildOpacityTransition: false,
             child: ListView.separated(
               padding: const EdgeInsets.all(16),
               separatorBuilder: (context, index) => const Divider(),
-              controller: _scrollController,
               itemCount: shops.length,
               itemBuilder: (context, index) {
                 final ShopData shop = shops[index];
@@ -100,7 +82,11 @@ class _ShopUiPageState extends State<ShopUiPage> {
                   ),
                   child: ListTile(
                     tileColor: const Color(0xffDEE5D4),
-                    onTap: () => context.pushNamed("shop-details"),
+                    onTap: () async {
+                      context.pushNamed("shop-details");
+                      final box = await Hive.openBox("shop_id");
+                      box.put("shop_id", shop.id);
+                    },
                     title: Text(shop.shopName ?? 'Unknown Shop'),
                     subtitle: Text(shop.shopAddress ?? 'No Address'),
                     leading: Container(
@@ -118,7 +104,6 @@ class _ShopUiPageState extends State<ShopUiPage> {
                       onPressed: () {},
                       icon: const Icon(Icons.call),
                     ),
-                    // trailing: Text(shop.shopContact ?? 'No Contact'),
                   ),
                 );
               },

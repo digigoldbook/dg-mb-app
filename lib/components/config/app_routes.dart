@@ -6,6 +6,7 @@ import '../../auth/sign_in/pages/sign_in_page.dart';
 import '../../auth/sign_up/pages/sign_up_page.dart';
 import '../../feedback/pages/feedback_page.dart';
 import '../../main_screen/pages/main_page.dart';
+import '../../news/pages/news_page.dart';
 import '../../services/estimation/pages/time_estimation_cal.dart';
 import '../../services/pages/percentage_convert.dart';
 import '../../services/pages/unit_converter.dart';
@@ -63,6 +64,11 @@ final GoRouter appRoutes = GoRouter(
       path: '/time-estimation-cal',
       name: "time-estimation-cal",
       builder: (context, state) => const TimeEstimationCal(),
+    ),
+    GoRoute(
+      path: '/news',
+      name: "news",
+      builder: (context, state) => const NewsPage(),
     ),
     GoRoute(
       path: '/shop',

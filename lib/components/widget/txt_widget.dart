@@ -63,7 +63,7 @@ class TxtWidget extends StatelessWidget {
 
     if (style == TxtStyle.lg) {
       return const TextStyle(
-        fontSize: 20,
+        fontSize: 24,
       );
     }
 

@@ -31,6 +31,7 @@ dependencies:
   connectivity_plus: ^6.0.5
   http: ^1.2.2
   liquid_pull_to_refresh: ^3.0.1
+  html: ^0.15.4
 
 dev_dependencies:
   flutter_test:
@@ -44,6 +45,7 @@ flutter:
   assets:
     - assets/images/main/
     - assets/images/welcome/
+    - assets/images/svg/
     - assets/images/service/
     - assets/json/
     - assets/lottie/

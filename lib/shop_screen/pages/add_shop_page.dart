@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 import '../../components/config/app_icons.dart';
@@ -7,6 +9,7 @@ import '../../components/utils/toast_utils.dart';
 import '../../components/widget/btn_widget.dart';
 import '../../components/widget/text_field_widget.dart';
 import '../../components/widget/txt_widget.dart';
+import '../domain/fetch_bloc/shop_bloc.dart';
 import '../services/add_shop.dart';
 
 class AddShopPage extends StatefulWidget {
@@ -24,25 +27,28 @@ class _AddShopPageState extends State<AddShopPage> {
 
   bool _isLoading = false; // To track the loading state
 
-  Future<void> _addNewShop() async {
+  Future<bool> _addNewShop() async {
     setState(() {
-      _isLoading = true; // Start loading
+      _isLoading = true;
     });
     try {
-      bool success = await addNewShopService(
+      final Response success = await addNewShopService(
         shopName: _shopName.text,
         shopAddress: _shopAddress.text,
         shopRegNo: _shopRegNo.text,
         shopContact: _shopContact.text,
       );
 
-      if (success) {
+      if (success.statusCode == 201) {
         showToast('Shop created successfully!');
+        return true;
       } else {
         showToast('Failed to create shop.');
+        return false;
       }
     } catch (e) {
       showToast('Error: $e');
+      return false;
     } finally {
       setState(() {
         _isLoading = false;
@@ -58,9 +64,9 @@ class _AddShopPageState extends State<AddShopPage> {
         children: [
           Center(
             child: TxtWidget(
-                strText:
-                    AppLocalizations.of(context)!.translate("registerShop"),
-                style: TxtStyle.mdb),
+              strText: AppLocalizations.of(context)!.translate("registerShop"),
+              style: TxtStyle.mdb,
+            ),
           ),
           const Gap(8 * 4),
           TextFieldWidget(
@@ -96,7 +102,11 @@ class _AddShopPageState extends State<AddShopPage> {
               : BtnWidget(
                   btnText: "Register Shop",
                   onTap: () async {
-                    await _addNewShop();
+                    final bool response = await _addNewShop();
+                    if (response == true) {
+                      context.read<ShopBloc>().add(GetShopList());
+                      Navigator.pop(context);
+                    }
                   },
                 ),
         ],

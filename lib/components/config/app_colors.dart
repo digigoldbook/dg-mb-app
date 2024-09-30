@@ -6,4 +6,5 @@ class AppColors {
   static AppColors get instance => _singleton;
 
   final Color redColor = const Color(0xffEF5A6F);
+  final Color blueColor = const Color(0xff7695FF);
 }

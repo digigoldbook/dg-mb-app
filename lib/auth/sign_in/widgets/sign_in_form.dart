@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../components/animation/fade_animation.dart';
 import '../../../components/config/app_localization.dart';
 import '../../../components/widget/btn_widget.dart';
 import '../../../components/widget/text_field_widget.dart';
@@ -22,38 +21,72 @@ class _SignInFormState extends State<SignInForm> with TickerProviderStateMixin {
   final TextEditingController _password = TextEditingController();
   bool _isHidden = true;
 
-  late FadeAnimation _emailFadeAnimation;
-  late FadeAnimation _passwordFadeAnimation;
-  late FadeAnimation _buttonFadeAnimation;
+  late AnimationController _emailController;
+  late AnimationController _passwordController;
+  late AnimationController _forgotPasswordController;
+  late AnimationController _buttonController;
+
+  late Animation<double> _emailFade;
+  late Animation<double> _passwordFade;
+  late Animation<double> _forgotPasswordFade;
+  late Animation<double> _buttonFade;
 
   @override
   void initState() {
     super.initState();
 
-    // Initialize fade animations
-    _emailFadeAnimation = FadeAnimation(this);
-    _passwordFadeAnimation = FadeAnimation(this);
-    _buttonFadeAnimation = FadeAnimation(this);
+    // Initialize animation controllers and curves
+    _emailController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    _passwordController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    _forgotPasswordController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    _buttonController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
 
-    // Start animations in sequence
-    _emailFadeAnimation.start();
-    _emailFadeAnimation.controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        _passwordFadeAnimation.start();
-        _passwordFadeAnimation.controller.addStatusListener((status) {
-          if (status == AnimationStatus.completed) {
-            _buttonFadeAnimation.start();
-          }
+    // Define fade animations
+    _emailFade = CurvedAnimation(
+      parent: _emailController,
+      curve: Curves.easeIn,
+    );
+    _passwordFade = CurvedAnimation(
+      parent: _passwordController,
+      curve: Curves.easeIn,
+    );
+    _forgotPasswordFade = CurvedAnimation(
+      parent: _forgotPasswordController,
+      curve: Curves.easeIn,
+    );
+    _buttonFade = CurvedAnimation(
+      parent: _buttonController,
+      curve: Curves.easeIn,
+    );
+
+    // Start the animations in sequence
+    _emailController.forward().then((_) {
+      _passwordController.forward().then((_) {
+        _forgotPasswordController.forward().then((_) {
+          _buttonController.forward();
         });
-      }
+      });
     });
   }
 
   @override
   void dispose() {
-    _emailFadeAnimation.dispose();
-    _passwordFadeAnimation.dispose();
-    _buttonFadeAnimation.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _forgotPasswordController.dispose();
+    _buttonController.dispose();
     _email.dispose();
     _password.dispose();
     super.dispose();
@@ -67,7 +100,7 @@ class _SignInFormState extends State<SignInForm> with TickerProviderStateMixin {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FadeTransition(
-            opacity: _emailFadeAnimation.animation,
+            opacity: _emailFade,
             child: TextFieldWidget(
               inputType: TextInputType.emailAddress,
               controller: _email,
@@ -77,7 +110,7 @@ class _SignInFormState extends State<SignInForm> with TickerProviderStateMixin {
           ),
           const Gap(16),
           FadeTransition(
-            opacity: _passwordFadeAnimation.animation,
+            opacity: _passwordFade,
             child: TextFieldWidget(
               inputType: TextInputType.text,
               isObscureText: _isHidden,
@@ -96,17 +129,20 @@ class _SignInFormState extends State<SignInForm> with TickerProviderStateMixin {
               ),
             ),
           ),
-          TextButton(
-            onPressed: () => context.pushNamed("reset-password"),
-            child: TxtWidget(
-              strText:
-                  AppLocalizations.of(context)!.translate("forgotPassword"),
-              style: TxtStyle.rg,
+          FadeTransition(
+            opacity: _forgotPasswordFade,
+            child: TextButton(
+              onPressed: () => context.pushNamed("reset-password"),
+              child: TxtWidget(
+                strText:
+                    AppLocalizations.of(context)!.translate("forgotPassword"),
+                style: TxtStyle.rg,
+              ),
             ),
           ),
           const Gap(24),
           FadeTransition(
-            opacity: _buttonFadeAnimation.animation,
+            opacity: _buttonFade,
             child: BtnWidget(
               btnText: AppLocalizations.of(context)!.translate("signIn"),
               onTap: () {

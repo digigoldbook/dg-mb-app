@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/components/config/app_localization.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../components/animation/fade_animation.dart';
 import '../../components/config/app_icons.dart';
+import '../../components/config/app_localization.dart';
 import '../../components/widget/txt_widget.dart';
 import '../utils/services_utils.dart';
+import '../widgets/home_news_widgets.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -82,6 +83,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             SizedBox(
               height: 400,
               child: GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(0),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -125,6 +127,32 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 },
               ),
             ),
+            const Gap(16),
+            SizedBox(
+              height: 850,
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const TxtWidget(
+                        strText: "News",
+                        style: TxtStyle.mdb,
+                      ),
+                      TextButton(
+                        onPressed: () => context.pushNamed("news"),
+                        child: const TxtWidget(
+                          strText: "View All",
+                          style: TxtStyle.rg,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const HomeNewsWidgets(),
+                ],
+              ),
+            )
           ],
         ),
       ),
